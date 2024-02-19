@@ -1,0 +1,14 @@
+import { QUERY_KEY } from '@/constants';
+
+export const userQueryKeys = {
+  all: QUERY_KEY.USER.KEY,
+  getList: [QUERY_KEY.USER.KEY, QUERY_KEY.USER.GET_USER_LIST],
+  getDetail: [QUERY_KEY.USER.KEY, QUERY_KEY.USER.GET_USER_DETAIL],
+  getInfo: [QUERY_KEY.USER.KEY, QUERY_KEY.USER.GET_PROFILE],
+  getUserPermission: [QUERY_KEY.USER.KEY, QUERY_KEY.USER.GET_PERMISSION],
+  getCurrentUserPermission: [
+    QUERY_KEY.USER.KEY,
+    QUERY_KEY.USER.GET_PROFILE,
+    QUERY_KEY.USER.GET_PERMISSION,
+  ],
+};

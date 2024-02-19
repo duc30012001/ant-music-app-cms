@@ -1,0 +1,17 @@
+export const defaultConfig = {
+  API_URL: process.env.API_URL ?? '',
+  WEBSITE_URL: process.env.WEBSITE_URL ?? '',
+  TELEGRAM: process.env.TELEGRAM ?? '',
+  WHATSAPP: process.env.WHATSAPP ?? '',
+  EMAIL: process.env.EMAIL ?? '',
+  PRIMARY_COLOR: process.env.PRIMARY_COLOR ?? '',
+  APP_NAME: process.env.APP_NAME ?? '',
+  APP_SHORT_NAME: process.env.APP_SHORT_NAME ?? '',
+  SLOGAN: process.env.SLOGAN ?? '',
+  APP_IMAGE: process.env.APP_IMAGE ?? '',
+  APP_DESCRIPTION: process.env.APP_DESCRIPTION ?? '',
+  APP_KEYWORDS: process.env.APP_KEYWORDS ?? '',
+  LOGIN_URL: process.env.LOGIN_URL ?? '',
+  ANT_GROUP_WEBSITE: process.env.ANT_GROUP_WEBSITE ?? '',
+  SECRET_KEY: process.env.SECRET_KEY ?? 'asdhksdajkasdkj',
+};

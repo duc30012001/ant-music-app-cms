@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="_32x32-english" data-name="32x32-english" transform="translate(-4564)">
+    <rect id="boundingbox" width="32" height="32" transform="translate(4564)" fill="#fff" opacity="0"/>
+    <g id="uk" transform="translate(4566 8)">
+      <rect id="Rectangle_17" data-name="Rectangle 17" width="28" height="16" transform="translate(0)" fill="#012169"/>
+      <path id="Path_20" data-name="Path 20" d="M45.6,0,36.266,5.334H34.18L43.513,0H42.469L33.934,4.878V0H33V6.4H45.6V5.334H39.4l6.2-3.544Z" transform="translate(-17.6 0)" fill="#fff"/>
+      <path id="Path_21" data-name="Path 21" d="M11.667,0V4.878L3.131,0H0L9.333,5.334H7.246L0,1.193v.6L6.2,5.334H0V6.4H12.6V0Z" transform="translate(0 0)" fill="#fff"/>
+      <path id="Path_22" data-name="Path 22" d="M37.531,18H33v6.4h.933V19.522L42.469,24.4H45.6l-9.334-5.333h2.087l7.247,4.14v-.6l-6.2-3.544h6.2V18Z" transform="translate(-17.6 -8.4)" fill="#fff"/>
+      <path id="Path_23" data-name="Path 23" d="M11.2,18H0v1.067H6.2L0,22.611V24.4l9.333-5.333H11.42L2.088,24.4H3.131l8.536-4.878V24.4H12.6V18Z" transform="translate(0 -8.4)" fill="#fff"/>
+      <path id="Path_24" data-name="Path 24" d="M9.333,20,0,25.333H2.087L11.42,20Z" transform="translate(0 -9.333)" fill="#c8102e"/>
+      <path id="Path_25" data-name="Path 25" d="M40,20l9.334,5.333V24.14L42.087,20Z" transform="translate(-21.333 -9.333)" fill="#c8102e"/>
+      <path id="Path_26" data-name="Path 26" d="M44.861,0,35.527,5.334h2.087L46.948,0Z" transform="translate(-18.948 0)" fill="#c8102e"/>
+      <path id="Path_27" data-name="Path 27" d="M0,0V1.193L7.246,5.334H9.333Z" transform="translate(0 0)" fill="#c8102e"/>
+      <path id="Path_28" data-name="Path 28" d="M12.6,0V6.4H0V9.6H12.6V16h2.8V9.6H28V6.4H15.4V0Z" transform="translate(0 0)" fill="#c8102e"/>
+    </g>
+  </g>
+</svg>

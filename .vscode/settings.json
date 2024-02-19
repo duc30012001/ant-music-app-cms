@@ -1,0 +1,14 @@
+{
+  "cSpell.words": ["Antd", "NEXTAUTH", "Oggy", "Sider"],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "wrapClassName",
+    "rootClassName",
+    "wrapperClassName",
+    "titleClassName"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSaveMode": "file"
+}

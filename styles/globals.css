@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './style.css';
+@import './timeline.css';
+
+html {
+  @apply font-sans;
+}
+
+/* ========================== Custom antd css ========================== */
+
+.ant-btn-primary {
+  /* @apply bg-primary; */
+}
+
+.ant-btn-default {
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.ant-form-item-label {
+  @apply font-semibold;
+}
+
+.ant-switch {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.ant-layout .ant-layout-sider-zero-width-trigger {
+  top: 34px;
+}
+
+.ant-form-item.app-form-item
+  .ant-form-item-label
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::before {
+  display: none !important;
+}
+
+.ant-form-item.app-form-item
+  .ant-form-item-label
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::after {
+  display: inline-block;
+  margin-inline-end: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
+  visibility: unset;
+}
+
+.full-screen-modal {
+  @apply !w-screen;
+  @apply max-w-full;
+  @apply top-0;
+  @apply pb-0;
+}
+
+.full-screen-modal .ant-modal-content {
+  @apply rounded-none;
+  @apply p-0;
+}
+
+.full-screen-modal .ant-modal-header {
+  @apply px-5;
+  @apply py-3;
+  @apply border-b;
+}
+
+.full-screen-modal .ant-modal-body {
+  height: calc(100vh - 67px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  @apply p-5;
+}
+/* ===================================================================== */
+
+/* ===================================================================== */
+
+.ck-content > blockquote,
+.ck-content > dl,
+.ck-content > dd,
+.ck-content > h1,
+.ck-content > h2,
+.ck-content > h3,
+.ck-content > h4,
+.ck-content > h5,
+.ck-content > h6,
+.ck-content > hr,
+.ck-content > figure,
+.ck-content > p,
+.ck-content > pre {
+  margin: revert;
+}
+
+.ck-content > ol,
+.ck-content > ul {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
+}
+
+.ck-content > table {
+  border-collapse: revert;
+}
+
+.ck-content > h1,
+.ck-content > h2,
+.ck-content > h3,
+.ck-content > h4,
+.ck-content > h5,
+.ck-content > h6 {
+  font-size: revert;
+  font-weight: revert;
+}
+
+.ck-content {
+  @apply text-base;
+}
+
+.ck .ck-content {
+  @apply font-normal;
+  @apply text-black;
+}
+
+.editor-fix .ck-content {
+  @apply h-96;
+}
+
+.editor-small .ck-content {
+  @apply min-h-[10rem];
+  @apply h-full;
+  @apply max-h-[20rem];
+}
+
+.editor-large .ck-content {
+  @apply min-h-[20rem];
+  @apply h-full;
+  @apply max-h-[50rem];
+}
+
+.hide-toolbar-ck .ck-content {
+  @apply !rounded-lg;
+  @apply border;
+  @apply border-[#d9d9d9];
+}
+
+.ant-form-item-has-error .ck-content {
+  @apply !border-[#ff4d4f];
+}
+
+.hide-toolbar-ck .ck-editor__top {
+  @apply !hidden;
+}
+
+/* ===================================================================== */

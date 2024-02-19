@@ -1,0 +1,64 @@
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 40px 0;
+}
+
+.timeline-container::after {
+  @apply bg-primary/90;
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  @apply left-0;
+  @apply lg:left-1/2;
+}
+
+.timeline-item {
+  @apply flex;
+  @apply justify-start;
+  @apply lg:justify-end;
+  @apply pr-8;
+  @apply pl-8;
+  position: relative;
+  margin: 10px 0;
+  @apply w-full;
+  @apply lg:w-1/2;
+}
+
+.timeline-item:nth-child(odd) {
+  @apply self-start;
+  @apply lg:self-end;
+  @apply justify-start;
+}
+
+.timeline-item-content {
+  @apply rounded-xl;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  @apply px-7;
+  @apply py-4;
+  position: relative;
+  @apply w-full;
+  @apply shadow-xl;
+}
+
+.timeline-item-content::after {
+  content: ' ';
+  background-color: #fff;
+  position: absolute;
+  @apply -left-2;
+  @apply lg:-right-2;
+  @apply lg:left-auto;
+  top: calc(50% - 7.5px);
+  transform: rotate(45deg);
+  width: 15px;
+  height: 15px;
+}
+
+.timeline-item:nth-child(odd) .timeline-item-content::after {
+  right: auto;
+  left: -7.5px;
+}

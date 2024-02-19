@@ -1,0 +1,111 @@
+.logo-font {
+  font-family: var(--font-boston);
+}
+
+.gradient-text {
+  background: linear-gradient(-45deg, #00ef86, #008cff, #ec3258, #fcda00);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+
+  20% {
+    background-position: 20% 50%;
+  }
+
+  40% {
+    background-position: 40% 50%;
+  }
+
+  60% {
+    background-position: 60% 50%;
+  }
+
+  80% {
+    background-position: 80% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* ===================================================================== */
+
+.glow-bg {
+  /* width: 220px;
+  height: 50px; */
+  border: none;
+  outline: none;
+  /* color: #fff; */
+  /* @apply text-slate-200; */
+  /* background: #111; */
+  /* @apply bg-black/90; */
+  position: relative;
+  z-index: 0;
+  @apply rounded-2xl;
+}
+
+.glow-bg:before {
+  content: '';
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  opacity: 1;
+  @apply rounded-2xl;
+}
+
+.glow-bg:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* background: #111; */
+  /* @apply bg-zinc-800; */
+  @apply bg-gray-900;
+  left: 0;
+  top: 0;
+  @apply rounded-2xl;
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
