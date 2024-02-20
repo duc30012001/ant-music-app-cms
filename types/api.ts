@@ -31,8 +31,8 @@ export interface CommonFunction {
 }
 
 export interface CommonParams {
-    offset?: number;
-    limit?: number;
-    keyword?: string;
-    // language: LOCALE;
-  }
+  offset?: number;
+  limit?: number;
+  keyword?: string;
+  // language: LOCALE;
+}

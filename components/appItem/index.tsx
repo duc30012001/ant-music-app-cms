@@ -20,7 +20,7 @@ function AppItem({ href, thumbnail, title, description }: Props) {
             }}
           />
         </div>
-        <h3 className="group-hover/item:text-primary my-2 line-clamp-2 cursor-pointer text-lg font-medium">
+        <h3 className="my-2 line-clamp-2 cursor-pointer text-lg font-medium group-hover/item:text-primary">
           {title}
         </h3>
         <p className="line-clamp-3 text-gray-300">{description}</p>

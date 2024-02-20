@@ -46,3 +46,8 @@ export enum DATE_FORMAT {
   DATE_ONLY = 'DD/MM/YYYY',
   FULL = 'HH:mm:ss DD/MM/YYYY',
 }
+
+export enum FILE_TYPE {
+  FREE = 'NotPay',
+  PREMIUM = 'Pay',
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { COOKIES_KEY } from './constants';
+import { COOKIES_KEY, DEFAULT_ROUTE } from './constants';
 import { ADMIN_ROUTES } from './enums';
 
 const PUBLIC_FILE = /\.(.*)$/;
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
 
   if (cookieToken && req.nextUrl.pathname === ADMIN_ROUTES.AUTH) {
     const url = req.nextUrl.clone();
-    url.pathname = ADMIN_ROUTES.USER;
+    url.pathname = DEFAULT_ROUTE;
     return NextResponse.redirect(url);
   }
 

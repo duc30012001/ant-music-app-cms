@@ -17,7 +17,7 @@ const config: Config = {
         sans: ['var(--font-open-sans)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: '#ff4757',
+        primary: '#1E79E4',
         'text-color': '#57606f',
         'title-color': '#2f3542',
         'des-color': '#6e7c89',

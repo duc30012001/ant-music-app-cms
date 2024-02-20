@@ -1,3 +1,4 @@
-export { default as ThemeForm } from './form';
-export { default as ThemeHeader } from './header';
-export { default as ThemeTable } from './table';
+export { default as ThemeForm } from './themeForm';
+export { default as ThemeHeader } from './themeHeader';
+export { default as ThemeSelect } from './themeSelect';
+export { default as ThemeTable } from './themeTable';

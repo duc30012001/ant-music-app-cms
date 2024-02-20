@@ -9,7 +9,7 @@ function AppAvatar({}: Props) {
   const { profile, logout } = useAuth();
   const { messages } = useTranslate();
 
-  // const avatarPlaceholder = profile?.name?.[0]?.toUpperCase() ?? 'U';
+  // const avatarPlaceholder = getAvatarPlaceholder(profile?.name);
   const avatarPlaceholder = 'U';
 
   const items: ItemType[] = [

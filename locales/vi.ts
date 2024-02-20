@@ -287,4 +287,5 @@ export const viMessages: TMessages = {
   ERROR_USER_PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH: 'Mật khẩu không khớp',
   ERROR_USER_NOT_FOUND: 'Không tìm thấy dữ liệu',
   ERROR_USER_EXIT_EMAIL: 'Email đã được sử dụng',
+  ERROR_SONG_NOT_FOUND: 'Không tìm thấy dữ liệu',
 };

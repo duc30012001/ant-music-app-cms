@@ -2,31 +2,30 @@ import { AppForm } from '@/components/ui/form';
 import AppFormItem from '@/components/ui/form/formItem';
 import { ImageUpload } from '@/components/ui/input';
 import { AppModal, AppModalProps } from '@/components/ui/modal';
-import { NAME_LENGTH } from '@/enums';
 import { useLoading, useTranslate } from '@/hooks';
 import { Form, Input } from 'antd';
 import { useEffect } from 'react';
-import { useCreateTheme, useThemeDetail, useUpdateTheme } from '../hooks';
-import { CreateTheme, ThemeData, UpdateTheme } from '../types';
+import { useCreateGenre, useGenreDetail, useUpdateGenre } from '../hooks';
+import { CreateGenre, GenreData, UpdateGenre } from '../types';
 
 type Props = {
-  dataEdit: ThemeData | null;
+  dataEdit: GenreData | null;
 } & Omit<AppModalProps, 'children'>;
 
-function ThemeForm({ dataEdit, ...props }: Props) {
+function GenreForm({ dataEdit, ...props }: Props) {
   const { messages } = useTranslate();
   const loading = useLoading();
   const [form] = Form.useForm();
 
   const isUpdate = Boolean(dataEdit?.id);
-  const themeId = dataEdit?.id as ThemeData['id'];
+  const genreId = dataEdit?.id as GenreData['id'];
   const modalTitle = isUpdate
     ? messages('common.update')
     : messages('common.create');
 
-  const { updateTheme } = useUpdateTheme();
-  const { createTheme } = useCreateTheme();
-  const { dataThemeDetail } = useThemeDetail(themeId);
+  const { updateGenre } = useUpdateGenre();
+  const { createGenre } = useCreateGenre();
+  const { dataGenreDetail } = useGenreDetail(genreId);
 
   function onFinish({ name, thumbnail }: any) {
     const file = thumbnail?.fileList?.[0];
@@ -39,22 +38,22 @@ function ThemeForm({ dataEdit, ...props }: Props) {
       payload.append('file', originalFile);
     }
 
-    const createVariables: CreateTheme = {
+    const createVariables: CreateGenre = {
       payload,
       onSuccess,
     };
 
-    const updateVariables: UpdateTheme = {
+    const updateVariables: UpdateGenre = {
       payload,
       onSuccess,
-      themeId,
+      genreId,
     };
 
     if (isUpdate) {
-      return updateTheme(updateVariables);
+      return updateGenre(updateVariables);
     }
 
-    return createTheme(createVariables);
+    return createGenre(createVariables);
   }
 
   function onSuccess() {
@@ -64,17 +63,17 @@ function ThemeForm({ dataEdit, ...props }: Props) {
   }
 
   useEffect(() => {
-    const { name } = dataThemeDetail;
+    const { name } = dataGenreDetail;
     form.setFieldsValue({
-      ...dataThemeDetail,
-      thumbnail: dataThemeDetail.thumbnail
+      ...dataGenreDetail,
+      thumbnail: dataGenreDetail.thumbnail
         ? {
-            fileList: [{ url: dataThemeDetail.thumbnail, name }],
+            fileList: [{ url: dataGenreDetail.thumbnail, name }],
           }
         : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(dataThemeDetail)]);
+  }, [JSON.stringify(dataGenreDetail)]);
 
   return (
     <AppModal
@@ -91,12 +90,10 @@ function ThemeForm({ dataEdit, ...props }: Props) {
         form={form}
       >
         <AppFormItem
-          label={'Chủ đề'}
+          label={'Thể loại'}
           rules={[
             {
               whitespace: true,
-              max: NAME_LENGTH.MAX,
-              min: NAME_LENGTH.MIN,
               required: true,
             },
           ]}
@@ -122,4 +119,4 @@ function ThemeForm({ dataEdit, ...props }: Props) {
   );
 }
 
-export default ThemeForm;
+export default GenreForm;

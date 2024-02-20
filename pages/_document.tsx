@@ -1,4 +1,5 @@
 import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { DocumentContext } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
@@ -56,6 +57,12 @@ function MyDocument() {
           href="/logo16.png"
           sizes="16x16"
         />
+
+        {/* <!-- Meta Tags Generated with https://metatags.io -->
+<!-- Google tag (gtag.js) --> */}
+
+        <GoogleAnalytics gaId="G-ZPC18SCJ0V" />
+        {/* <!-- End Google Tag Manager --> */}
       </Head>
       <body>
         <Main />

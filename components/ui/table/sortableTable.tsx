@@ -71,7 +71,7 @@ const Row = ({ children, ...props }: RowProps) => {
 };
 
 const SortableTable: React.FC<SortableTableProps<any>> = ({
-  dataSource,
+  dataSource = [],
   onDragEnd,
   columns = [],
   ...props

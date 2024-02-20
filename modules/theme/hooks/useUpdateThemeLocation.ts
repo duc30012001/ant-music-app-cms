@@ -1,8 +1,8 @@
-import { QUERY_KEY } from '@/constants';
 import { handleError, showNotification } from '@/helpers';
 import { useTranslate } from '@/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { themeApi } from '../api';
+import { themeQueryKeys } from '../constants';
 import { UpdateThemeLocation } from '../types';
 
 export function useUpdateThemeLocation() {
@@ -11,7 +11,7 @@ export function useUpdateThemeLocation() {
 
   const handleSuccess = (data: any, { onSuccess }: UpdateThemeLocation) => {
     queryClient.invalidateQueries({
-      queryKey: [QUERY_KEY.USER.KEY, QUERY_KEY.USER.GET_USER_LIST],
+      queryKey: themeQueryKeys.getList,
     });
     showNotification('success', messages('message.updateSuccessfully'));
     onSuccess?.();

@@ -285,4 +285,5 @@ export const enMessages: TMessages = {
   ERROR_USER_PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH: 'Password mis match',
   ERROR_USER_NOT_FOUND: 'Data not found',
   ERROR_USER_EXIT_EMAIL: 'Email is already in e',
+  ERROR_SONG_NOT_FOUND: 'Data not found',
 };

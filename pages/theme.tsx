@@ -3,7 +3,6 @@ import AppConfirm from '@/components/ui/modal/confirmModal';
 import { OnDragEnd } from '@/components/ui/table/sortableTable';
 import { useLoading, useModal, useTranslate } from '@/hooks';
 import { useFilter } from '@/hooks/useFilter';
-import { AdminLayout } from '@/layouts';
 import { ThemeForm, ThemeHeader, ThemeTable } from '@/modules/theme/components';
 import { TYPE_MODAL_THEME } from '@/modules/theme/enums';
 import {
@@ -91,5 +90,3 @@ function ThemePage({}: Props) {
 }
 
 export default ThemePage;
-
-ThemePage.Layout = AdminLayout;

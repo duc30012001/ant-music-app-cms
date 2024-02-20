@@ -52,3 +52,7 @@ export function stringToNumber(value: any) {
   if (!value) return undefined;
   return Number(value);
 }
+
+export function getAvatarPlaceholder(value: any) {
+  return value?.[0]?.toUpperCase();
+}
