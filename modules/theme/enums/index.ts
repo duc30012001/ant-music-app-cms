@@ -1,0 +1,5 @@
+export enum TYPE_MODAL_THEME {
+  UPDATE = 'UPDATE_THEME',
+  CREATE = 'CREATE_THEME',
+  DELETE = 'DELETE',
+}
