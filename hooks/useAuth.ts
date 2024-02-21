@@ -1,5 +1,5 @@
 import { LoginPayload, authApi } from '@/apiClient/authApi';
-import { ADMIN_ROUTES } from '@/enums';
+import { DEFAULT_ROUTE } from '@/constants';
 import {
   Token,
   getToken,
@@ -37,7 +37,7 @@ export const useAuth = () => {
       const { token, refresh_token } = response.data.docs;
       if (token) {
         setToken(token, refresh_token);
-        router.push(ADMIN_ROUTES.USER);
+        router.push(DEFAULT_ROUTE);
       }
     } catch (error) {
       console.log('error:', error);

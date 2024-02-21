@@ -26,7 +26,6 @@ function SongPage({}: Props) {
   const { dataFilter, onSearch } = useFilter<DataFilterSong>(defaultFilter);
 
   const { dataSong } = useSongList(dataFilter);
-  console.log('dataSong:', dataSong);
   return (
     <AppContainer appTitle="Bài hát" sidebarContent={<SongSidebar />}>
       <SongHeader

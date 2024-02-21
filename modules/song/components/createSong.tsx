@@ -1,21 +1,46 @@
+import AppPlaySong from '@/components/appPlaySong';
+import {
+  AppForm,
+  FormDivider,
+  FormMultiLangCol,
+  FormMultiLangRow,
+} from '@/components/ui/antdForm';
+import { AppFormItem } from '@/components/ui/form';
+import { ImageUpload } from '@/components/ui/input';
 import { AppModal, AppModalProps } from '@/components/ui/modal';
-import { handleGetErrorMessage, showNotification } from '@/helpers';
+import { DATE_FORMAT } from '@/enums';
+import { cn, handleGetErrorMessage, showNotification } from '@/helpers';
 import { useActive, useTranslate } from '@/hooks';
+import { FileTypeSelect } from '@/modules/fileType/components';
 import { GenreSelect } from '@/modules/genre/components';
 import { ThemeSelect } from '@/modules/theme/components';
-import { Button, Divider, Input } from 'antd';
+import { Button, Divider, Form, Input, InputProps } from 'antd';
+import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
 import { songApi } from '../api';
 import { SongDetailExists } from '../types';
 
 type Props = {} & Omit<AppModalProps, 'children'>;
 
+interface ViewOnlyInputProps extends InputProps {
+  viewOnly?: boolean;
+}
+
+const ViewOnlyInput = ({ viewOnly, ...props }: ViewOnlyInputProps) => (
+  <Input
+    {...props}
+    className={cn({ '!bg-white !text-gray-900': viewOnly })}
+    disabled
+  />
+);
+
 function CreateSong({ ...props }: Props) {
   const songSlug = useRef<string | undefined>();
   const { messages } = useTranslate();
+  const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
 
-  const [songData, setSongData] = useState<SongDetailExists | {}>({});
+  const [songData, setSongData] = useState<SongDetailExists | undefined>();
   console.log('songData:', songData);
 
   const onGetInfoSong = async () => {
@@ -29,6 +54,21 @@ function CreateSong({ ...props }: Props) {
       .getExistDetail(value)
       .then((response) => {
         const data = response.data.docs.result;
+        const { name, genres, themes, upload_date, phaseId, detail_url } = data;
+        const originalGenre = genres.map((item) => item.name).join(', ');
+        const originalTheme = themes.map((item) => item.name).join(', ');
+
+        const values = {
+          originalName: name,
+          name,
+          originalGenre,
+          originalTheme,
+          uploadDate: dayjs(upload_date).format(DATE_FORMAT.DATE_ONLY),
+          phaseId,
+          detailURL: detail_url,
+        };
+
+        form.setFieldsValue(values);
         setSongData(data);
       })
       .catch((error) => {
@@ -63,12 +103,116 @@ function CreateSong({ ...props }: Props) {
           </Button>
         </div>
       </div>
+
       <Divider />
-      <div>
-        Form
-        <ThemeSelect mode="multiple" />
-        <GenreSelect mode="multiple" />
-      </div>
+
+      <AppForm disabled={!songData} form={form}>
+        <FormMultiLangRow gutter={[80, 40]}>
+          <FormMultiLangCol title="Dữ liệu gốc">
+            <AppFormItem label="Tên bài hát" name="originalName">
+              <ViewOnlyInput viewOnly={!!songData} />
+            </AppFormItem>
+
+            <AppFormItem label="Thể loại" name="originalGenre">
+              <ViewOnlyInput viewOnly={!!songData} />
+            </AppFormItem>
+
+            <AppFormItem label="Chủ đề" name="originalTheme">
+              <ViewOnlyInput viewOnly={!!songData} />
+            </AppFormItem>
+
+            <AppFormItem label="Ngày tải lên" name="uploadDate">
+              <ViewOnlyInput viewOnly={!!songData} />
+            </AppFormItem>
+
+            <AppFormItem label="Vòng kiểm duyệt" name="phaseId">
+              <ViewOnlyInput viewOnly={!!songData} />
+            </AppFormItem>
+          </FormMultiLangCol>
+
+          <FormMultiLangCol title="Dữ liệu mới">
+            <AppFormItem
+              label="Tên bài hát"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: messages('validation.input'),
+                },
+              ]}
+            >
+              <Input placeholder="Nhập tên bài hát" />
+            </AppFormItem>
+
+            <AppFormItem
+              label="Thể loại"
+              name="genreId"
+              rules={[
+                {
+                  required: true,
+                  message: messages('validation.select'),
+                },
+              ]}
+            >
+              <GenreSelect mode="multiple" />
+            </AppFormItem>
+
+            <AppFormItem
+              label="Chủ đề"
+              name="themeId"
+              rules={[
+                {
+                  required: true,
+                  message: messages('validation.select'),
+                },
+              ]}
+            >
+              <ThemeSelect mode="multiple" />
+            </AppFormItem>
+
+            <Form.List name="detailURL">
+              {(fields, { add, remove }) => (
+                <>
+                  <FormDivider />
+                  {fields.map(({ key, name, ...restField }, index) => (
+                    <div key={key}>
+                      <AppFormItem
+                        {...restField}
+                        name={[name, 'fileTypeId']}
+                        label="Loại file"
+                      >
+                        <FileTypeSelect />
+                      </AppFormItem>
+                      <Form.Item noStyle shouldUpdate>
+                        {({ getFieldValue }) => {
+                          const currentValues = getFieldValue('detailURL');
+                          console.log('currentValues:', currentValues[index]);
+                          const { duration, peakdata, url } =
+                            currentValues[index] ?? {};
+                          return (
+                            <AppFormItem
+                              {...restField}
+                              name={[name, 'id']}
+                              label="File"
+                            >
+                              <AppPlaySong />
+                            </AppFormItem>
+                          );
+                        }}
+                      </Form.Item>
+                      <FormDivider />
+                    </div>
+                  ))}
+                </>
+              )}
+            </Form.List>
+
+            <AppFormItem label={messages('common.thumbnail')} name="thumbnail">
+              <ImageUpload />
+            </AppFormItem>
+          </FormMultiLangCol>
+        </FormMultiLangRow>
+      </AppForm>
     </AppModal>
   );
 }

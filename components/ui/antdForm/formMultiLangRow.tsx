@@ -1,12 +1,16 @@
-import { Row } from 'antd';
+import { Row, RowProps } from 'antd';
 import { ReactNode } from 'react';
 
-type Props = {
+interface Props extends RowProps {
   children: ReactNode;
-};
+}
 
-function FormMultiLangRow({ children }: Props) {
-  return <Row gutter={[30, 20]}>{children}</Row>;
+function FormMultiLangRow({ children, gutter = [30, 20], ...props }: Props) {
+  return (
+    <Row {...props} gutter={gutter}>
+      {children}
+    </Row>
+  );
 }
 
 export default FormMultiLangRow;
