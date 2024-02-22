@@ -79,7 +79,7 @@ const nextConfig = {
     'rc-table',
   ],
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'vi',
     locales: ['vi', 'en'],
     localeDetection: false,
   },

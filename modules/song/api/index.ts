@@ -24,11 +24,7 @@ export const songApi = {
   },
 
   createSong(payload: SongPayload) {
-    return axiosAuth.post(`/api/v1/manager/song/add`, payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return axiosAuth.post(`/api/v1/manager/song/add`, payload);
   },
 
   // updateSong(songId: SongData['id'], payload: SongPayload) {

@@ -15,10 +15,15 @@ export function useCreateSong() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: CreateSong) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: CreateSong) => songApi.createSong(payload),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const createSong = (variables: CreateSong) => {

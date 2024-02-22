@@ -10,6 +10,8 @@ interface SongKey {
   id: number;
   fileType: FileType;
   url: string;
+  peakdata: null | string;
+  duration: string;
 }
 
 interface SongGenre {
@@ -86,6 +88,7 @@ export interface SongDetailData {
 
 export interface SongPayload extends Pick<SongData, 'name'> {
   name: string;
+  songId: SongDetailExists['id'];
   song: Array<{ id: SongDetailExists['id']; fileTypeId: FileType['id'] }>;
   genreId: Array<SongCategory['id']>;
   themeId: Array<SongCategory['id']>;

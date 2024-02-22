@@ -1,4 +1,4 @@
-import AppPlaySong from '@/components/appPlaySong';
+import { PlaySong, usePlaySong } from '@/components/appPlaySong';
 import {
   AppForm,
   FormDivider,
@@ -16,9 +16,10 @@ import { GenreSelect } from '@/modules/genre/components';
 import { ThemeSelect } from '@/modules/theme/components';
 import { Button, Divider, Form, Input, InputProps } from 'antd';
 import dayjs from 'dayjs';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { songApi } from '../api';
-import { SongDetailExists } from '../types';
+import { useCreateSong } from '../hooks';
+import { SongDetailExists, SongPayload } from '../types';
 
 type Props = {} & Omit<AppModalProps, 'children'>;
 
@@ -39,9 +40,10 @@ function CreateSong({ ...props }: Props) {
   const { messages } = useTranslate();
   const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
+  const { onStop } = usePlaySong();
 
   const [songData, setSongData] = useState<SongDetailExists | undefined>();
-  console.log('songData:', songData);
+  const { createSong } = useCreateSong();
 
   const onGetInfoSong = async () => {
     const value = songSlug.current;
@@ -80,6 +82,35 @@ function CreateSong({ ...props }: Props) {
       });
   };
 
+  const onFinish = (values: any) => {
+    active();
+    const song = values.detailURL
+      .filter((item: any) => !!item.fileTypeId)
+      .map((item: any) => ({ id: item.id, fileTypeId: item.fileTypeId }));
+    const payload: SongPayload = {
+      name: values.name,
+      songId: songData?.id as number,
+      genreId: values.genreId,
+      themeId: values.themeId,
+      song,
+    };
+    createSong({ payload, onSuccess, onError });
+  };
+
+  const onSuccess = () => {
+    form.resetFields();
+    inActive();
+  };
+
+  const onError = () => {
+    inActive();
+  };
+
+  useEffect(() => {
+    return () => onStop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <AppModal
       {...props}
@@ -106,7 +137,14 @@ function CreateSong({ ...props }: Props) {
 
       <Divider />
 
-      <AppForm disabled={!songData} form={form}>
+      <AppForm
+        disabled={!songData}
+        form={form}
+        onFinish={onFinish}
+        submitProps={{
+          loading: isActive,
+        }}
+      >
         <FormMultiLangRow gutter={[80, 40]}>
           <FormMultiLangCol title="Dữ liệu gốc">
             <AppFormItem label="Tên bài hát" name="originalName">
@@ -186,7 +224,6 @@ function CreateSong({ ...props }: Props) {
                       <Form.Item noStyle shouldUpdate>
                         {({ getFieldValue }) => {
                           const currentValues = getFieldValue('detailURL');
-                          console.log('currentValues:', currentValues[index]);
                           const { duration, peakdata, url } =
                             currentValues[index] ?? {};
                           return (
@@ -195,7 +232,11 @@ function CreateSong({ ...props }: Props) {
                               name={[name, 'id']}
                               label="File"
                             >
-                              <AppPlaySong />
+                              <PlaySong
+                                duration={duration}
+                                peakData={peakdata}
+                                url={url}
+                              />
                             </AppFormItem>
                           );
                         }}

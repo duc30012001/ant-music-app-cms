@@ -1,4 +1,7 @@
 import { AppContainer } from '@/components/appContainer';
+import AppPagination from '@/components/ui/pagination';
+import { PAGE_SIZE } from '@/constants';
+import { getCurrentPage } from '@/helpers';
 import { useFilter, useLoading, useModal, useTranslate } from '@/hooks';
 import {
   CreateSong,
@@ -21,11 +24,17 @@ function SongPage({}: Props) {
     SongData
   >();
 
-  const defaultFilter: DataFilterSong = {};
+  const defaultFilter: DataFilterSong = {
+    offset: 0,
+    limit: PAGE_SIZE,
+  };
 
   const { dataFilter, onSearch } = useFilter<DataFilterSong>(defaultFilter);
 
-  const { dataSong } = useSongList(dataFilter);
+  const { dataSong, totalRecord } = useSongList(dataFilter);
+  console.log('dataSong:', dataSong);
+
+  const currentPage = getCurrentPage(dataFilter.limit, PAGE_SIZE);
   return (
     <AppContainer appTitle="Bài hát" sidebarContent={<SongSidebar />}>
       <SongHeader
@@ -33,7 +42,13 @@ function SongPage({}: Props) {
         onSearch={onSearch}
         openModal={openModal}
       />
-      <SongList />
+      <SongList dataSong={dataSong} />
+      <AppPagination
+        pageSize={PAGE_SIZE}
+        current={currentPage}
+        total={totalRecord}
+        // onChange={onChangePage}
+      />
 
       {typeModal === TYPE_MODAL_SONG.CREATE && (
         <CreateSong open onCancel={closeModal} />

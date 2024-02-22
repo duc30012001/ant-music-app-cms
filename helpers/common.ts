@@ -56,3 +56,22 @@ export function stringToNumber(value: any) {
 export function getAvatarPlaceholder(value: any) {
   return value?.[0]?.toUpperCase();
 }
+
+export const convertSecondsToTime = (duration = 0) => {
+  if (isNaN(Number(duration)) || duration < 0) {
+    return '00:00';
+  }
+
+  let minutes: string | number = Math.floor(duration / 60);
+  let seconds: string | number = Math.floor(duration - minutes * 60);
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${minutes}:${seconds}`;
+};
