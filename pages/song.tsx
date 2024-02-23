@@ -5,6 +5,7 @@ import { getCurrentPage } from '@/helpers';
 import { useFilter, useLoading, useModal, useTranslate } from '@/hooks';
 import {
   CreateSong,
+  DownloadModal,
   SongHeader,
   SongList,
   SongSidebar,
@@ -19,7 +20,7 @@ function SongPage({}: Props) {
   const { messages } = useTranslate();
   const loading = useLoading();
 
-  const { typeModal, openModal, closeModal } = useModal<
+  const { typeModal, openModal, closeModal, dataEdit } = useModal<
     TYPE_MODAL_SONG,
     SongData
   >();
@@ -48,7 +49,7 @@ function SongPage({}: Props) {
         onSearch={onSearch}
         openModal={openModal}
       />
-      <SongList dataSong={dataSong} />
+      <SongList dataSong={dataSong} openModal={openModal} />
       <AppPagination
         pageSize={PAGE_SIZE}
         current={currentPage}
@@ -58,6 +59,10 @@ function SongPage({}: Props) {
 
       {typeModal === TYPE_MODAL_SONG.CREATE && (
         <CreateSong open onCancel={closeModal} />
+      )}
+
+      {typeModal === TYPE_MODAL_SONG.DOWNLOAD && (
+        <DownloadModal open onCancel={closeModal} dataEdit={dataEdit} />
       )}
     </AppContainer>
   );
