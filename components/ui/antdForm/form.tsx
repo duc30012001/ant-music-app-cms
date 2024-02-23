@@ -1,21 +1,21 @@
 import { FORM_LAYOUT, FORM_LAYOUT_VERTICAL } from '@/constants';
 import { cn } from '@/helpers';
 import { useTranslate } from '@/hooks';
-import { Button, Form, FormProps } from 'antd';
+import { Button, ButtonProps, Form, FormProps } from 'antd';
 import { ReactNode } from 'react';
 
 export type AppFormProps = {
   children: ReactNode;
   submitText?: ReactNode;
   showSubmit?: boolean;
-  loading?: boolean;
+  submitProps?: ButtonProps;
 } & Omit<FormProps, 'name'>;
 
 function AppForm({
   children,
   submitText,
   showSubmit = true,
-  loading,
+  submitProps,
   ...props
 }: AppFormProps) {
   const { messages } = useTranslate();
@@ -29,7 +29,7 @@ function AppForm({
           hidden: !showSubmit,
         })}
       >
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" {...submitProps} htmlType="submit">
           {submitText ?? messages('common.submit')}
         </Button>
       </div>

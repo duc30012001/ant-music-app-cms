@@ -5,7 +5,6 @@ import { USER_STATUS } from '@/enums';
 import { getCurrentPage } from '@/helpers';
 import { useModal, useTranslate } from '@/hooks';
 import { useFilter } from '@/hooks/useFilter';
-import { AdminLayout } from '@/layouts';
 import { UserForm, UserHeader, UserTable } from '@/modules/user/components';
 import { TYPE_MODAL_USER } from '@/modules/user/enums';
 import { useUpdateUserStatus, useUserList } from '@/modules/user/hooks';
@@ -73,5 +72,3 @@ function UserPage({}: Props) {
 }
 
 export default UserPage;
-
-UserPage.Layout = AdminLayout;

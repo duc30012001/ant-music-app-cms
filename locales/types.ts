@@ -282,4 +282,5 @@ export type TMessages = {
   ERROR_USER_PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH: string;
   ERROR_USER_NOT_FOUND: string;
   ERROR_USER_EXIT_EMAIL: string;
+  ERROR_SONG_NOT_FOUND: string;
 };

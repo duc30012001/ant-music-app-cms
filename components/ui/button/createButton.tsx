@@ -14,7 +14,7 @@ function CreateButton({ canCreate, ...props }: Props) {
       {...props}
       icon={<FaPlus />}
       type="primary"
-      className="flex items-center"
+      className="!flex items-center"
     >
       {messages('common.create')}
     </Button>

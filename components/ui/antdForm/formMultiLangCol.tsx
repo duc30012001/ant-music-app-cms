@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
-  title?: boolean;
+  title?: ReactNode;
   locale?: LOCALE;
 };
 
@@ -17,28 +17,29 @@ function FormMultiLangCol({
 }: Props) {
   const { messages } = useTranslate();
 
-  const options = {
-    [LOCALE.EN]: {
-      label: messages('common.en'),
-      icon: '/languages/en.svg',
-    },
-    [LOCALE.VI]: {
-      label: messages('common.vi'),
-      icon: '/languages/vi.svg',
-    },
-  };
+  // const options = {
+  //   [LOCALE.EN]: {
+  //     label: messages('common.en'),
+  //     icon: '/languages/en.svg',
+  //   },
+  //   [LOCALE.VI]: {
+  //     label: messages('common.vi'),
+  //     icon: '/languages/vi.svg',
+  //   },
+  // };
 
   return (
     <Col xs={24} lg={12}>
       {title && (
         <h3 className="mb-2 flex items-center gap-1 text-base font-semibold">
-          <Image
+          {/* <Image
             height={30}
             width={30}
             src={options[locale].icon}
             alt={options[locale].label}
           />
-          {options[locale].label}
+          {options[locale].label} */}
+          {title}
         </h3>
       )}
       {children}

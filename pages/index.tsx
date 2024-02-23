@@ -2,11 +2,10 @@ import Seo from '@/components/seo';
 import { AppForm } from '@/components/ui/antdForm';
 import AppFormItem from '@/components/ui/antdForm/formItem';
 import { defaultConfig } from '@/constants';
-import { PASSWORD_LENGTH, PUBLIC_ROUTES } from '@/enums';
+import { PASSWORD_LENGTH } from '@/enums';
 import { useActive, useAuth, useLocale, useTranslate } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { Button, Input } from 'antd';
-import Link from 'next/link';
 
 type Props = {};
 
@@ -72,11 +71,11 @@ function AuthPage({}: Props) {
           >
             <Input.Password size={size} />
           </AppFormItem>
-          <div className="mb-4 flex justify-between">
+          {/* <div className="mb-4 flex justify-between">
             <Link href={PUBLIC_ROUTES.HOME} className="text-blue-700">
               {messages('home.label')}
             </Link>
-          </div>
+          </div> */}
           <AppFormItem>
             <Button
               className="w-full"

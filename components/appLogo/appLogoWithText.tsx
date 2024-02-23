@@ -1,6 +1,5 @@
 import logoImage from '@/assets/logo/logo.png';
-import { defaultConfig } from '@/constants';
-import { PUBLIC_ROUTES } from '@/enums';
+import { DEFAULT_ROUTE, defaultConfig } from '@/constants';
 import { cn } from '@/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,13 +17,13 @@ function AppLogoWithText({ className, wrapperClassName, size = 70 }: Props) {
 
   return (
     <Link
-      href={PUBLIC_ROUTES.HOME}
+      href={DEFAULT_ROUTE}
       className={cn('flex w-fit items-center gap-2', wrapperClassName)}
     >
       <Image src={src} alt="logo" height={size} width={size} />
       <h2
         className={cn(
-          'logo-font text-title-color text-4xl uppercase',
+          'logo-font text-4xl uppercase text-title-color',
           className
         )}
       >

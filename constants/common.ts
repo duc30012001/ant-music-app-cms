@@ -1,3 +1,4 @@
+import { ADMIN_ROUTES } from '@/enums';
 import { FormProps } from 'antd';
 
 export const COOKIES_KEY = {
@@ -41,3 +42,5 @@ export const FORM_LAYOUT_VERTICAL: FormProps = {
 };
 
 export const ONE_DAY = 60 * 60 * 24;
+
+export const DEFAULT_ROUTE = ADMIN_ROUTES.SONG;

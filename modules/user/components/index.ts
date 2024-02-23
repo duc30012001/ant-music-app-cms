@@ -1,3 +1,3 @@
-export { default as UserForm } from './form';
-export { default as UserHeader } from './header';
-export { default as UserTable } from './table';
+export { default as UserForm } from './userForm';
+export { default as UserHeader } from './userHeader';
+export { default as UserTable } from './userTable';

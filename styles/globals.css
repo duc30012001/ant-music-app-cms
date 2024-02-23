@@ -11,6 +11,10 @@ html {
 
 /* ========================== Custom antd css ========================== */
 
+.ant-table-placeholder {
+  z-index: 1000 !important;
+}
+
 .ant-btn-primary {
   /* @apply bg-primary; */
 }

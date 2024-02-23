@@ -8,7 +8,7 @@ type AppFormItemProps = {
 
 function AppFormItem({ children, className, ...props }: AppFormItemProps) {
   return (
-    <Form.Item {...props} className={cn('app-form-item mb-3', className)}>
+    <Form.Item {...props} className={cn('app-form-item !mb-3', className)}>
       {children}
     </Form.Item>
   );
