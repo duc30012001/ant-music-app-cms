@@ -29,6 +29,7 @@ const nextConfig = {
     BUCKET_NAME: process.env.BUCKET_NAME,
     PROJECT_ID: process.env.PROJECT_ID,
     CERT_PATH: process.env.CERT_PATH,
+    FOLDER_FILE: process.env.FOLDER_FILE,
     NODEMAILER_SENDER: process.env.NODEMAILER_SENDER,
     NODEMAILER_RECEIVER: process.env.NODEMAILER_RECEIVER,
     NODEMAILER_RECEIVER_CC: process.env.NODEMAILER_RECEIVER_CC,

@@ -27,6 +27,7 @@ interface SongTheme {
 export interface SongData extends CommonAttribute {
   name: string;
   thumbnail: string;
+  idString: string;
   status: string;
   songGenre: SongGenre[];
   songTheme: SongTheme[];
@@ -44,6 +45,12 @@ interface SongDetailURL {
   name: string;
   extension: string;
   url: string;
+  fileType?: {
+    contentType: 'string';
+    format: string;
+    id: number;
+    name: string;
+  };
 }
 
 export interface SongDetailExists {
@@ -92,6 +99,7 @@ export interface SongPayload extends Pick<SongData, 'name'> {
   song: Array<{ id: SongDetailExists['id']; fileTypeId: FileType['id'] }>;
   genreId: Array<SongCategory['id']>;
   themeId: Array<SongCategory['id']>;
+  thumbnail?: string;
 }
 
 export interface CreateSong extends CommonFunction {
@@ -107,4 +115,31 @@ export interface DeleteSong extends CommonFunction {
   songId: SongData['id'];
 }
 
-export interface DataFilterSong extends CommonParams {}
+export interface DataFilterSong extends CommonParams {
+  genreId?: string;
+  themeId?: string;
+  status?: string;
+}
+
+interface DataSidebarGenre {
+  genre_id: GenreData['id'];
+  genre_name: GenreData['name'];
+  songCount: number;
+}
+
+interface DataSidebarTheme {
+  theme_id: ThemeData['id'];
+  theme_name: ThemeData['name'];
+  songCount: number;
+}
+
+export interface DataSidebar {
+  genre: {
+    name: string;
+    data: DataSidebarGenre[];
+  };
+  theme: {
+    name: string;
+    data: DataSidebarTheme[];
+  };
+}

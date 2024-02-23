@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const BUCKET_NAME = process.env.BUCKET_NAME as string;
 const PROJECT_ID = process.env.PROJECT_ID;
 const KEY_FILE_NAME = process.env.CERT_PATH;
+const FOLDER_FILE = process.env.FOLDER_FILE;
 
 const storage = new Storage({
   projectId: PROJECT_ID,
@@ -49,7 +50,7 @@ export default async function handler(
   }
 
   const date = dayjs().format('YYYYMMDDHHmmss');
-  const fileKey = `${date}_${replaceSpecialChars(fileName)}`;
+  const fileKey = `${FOLDER_FILE}/${date}_${replaceSpecialChars(fileName)}`;
 
   const signedUrl = await generateSignedUrl(fileKey, contentType);
   const key = `${BUCKET_NAME}/${fileKey}`;

@@ -1,29 +1,56 @@
-import { useGenreList } from '@/modules/genre/hooks';
-import { useThemeList } from '@/modules/theme/hooks';
+import { OnChangeFilter } from '@/hooks';
 import { Divider } from 'antd';
+import { useSongSidebar } from '../hooks';
+import { DataFilterSong } from '../types';
 import SidebarSection from './sidebarSection';
 
-type Props = {};
+type Props = {
+  dataFilter: DataFilterSong;
+  onChangeFilter: OnChangeFilter<DataFilterSong>;
+};
 
-function SongSidebar({}: Props) {
-  const { dataGenre } = useGenreList({});
-  const { dataTheme } = useThemeList({});
+function SongSidebar({ dataFilter, onChangeFilter }: Props) {
+  const { dataSidebar } = useSongSidebar(dataFilter);
 
-  const dataSidebarGenre = dataGenre.map(({ id, name }) => ({
-    name,
-    value: id,
-  }));
+  const dataSidebarGenre = (dataSidebar.genre?.data ?? []).map(
+    ({ genre_id, genre_name, songCount }) => ({
+      name: genre_name,
+      value: genre_id,
+      songCount,
+    })
+  );
 
-  const dataSidebarTheme = dataTheme.map(({ id, name }) => ({
-    name,
-    value: id,
-  }));
+  const dataSidebarTheme = (dataSidebar.theme?.data ?? []).map(
+    ({ theme_id, theme_name, songCount }) => ({
+      name: theme_name,
+      value: theme_id,
+      songCount,
+    })
+  );
 
   return (
     <div className="py-3">
-      <SidebarSection title="Thể loại" data={dataSidebarGenre} />
+      <SidebarSection
+        title="Thể loại"
+        data={dataSidebarGenre}
+        categoryValue={dataFilter.genreId}
+        onChange={(value) =>
+          onChangeFilter({
+            genreId: value,
+          })
+        }
+      />
       <Divider />
-      <SidebarSection title="Chủ đề" data={dataSidebarTheme} />
+      <SidebarSection
+        title="Chủ đề"
+        data={dataSidebarTheme}
+        categoryValue={dataFilter.themeId}
+        onChange={(value) =>
+          onChangeFilter({
+            themeId: value,
+          })
+        }
+      />
     </div>
   );
 }

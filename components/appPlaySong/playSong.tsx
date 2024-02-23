@@ -1,12 +1,7 @@
 import { convertSecondsToTime } from '@/helpers';
-import dynamic from 'next/dynamic';
 import { FaPause, FaPlay } from 'react-icons/fa';
 import { usePlaySong } from './playSongProvider';
-
-// @ts-ignore
-const Waveform = dynamic(() => import('react-audio-waveform'), {
-  ssr: false,
-});
+import Waveform from './waveform';
 
 type Props = {
   peakData: string;
@@ -16,8 +11,10 @@ type Props = {
 
 function PlaySong({ peakData, duration, url }: Props) {
   const peaks = peakData?.split(';') ?? [];
-  const { onSeek, currentTimePlaying, isPlaying, onPlay, onStop } =
-    usePlaySong();
+  const { onSeek, onStop, onPlay, ...value } = usePlaySong();
+
+  const isPlaying = url === value.url ? value.isPlaying : false;
+  const currentTimePlaying = url === value.url ? value.currentTimePlaying : 0;
 
   const handleSeeking = (second: number) => {
     onSeek({ second, url });
@@ -45,22 +42,12 @@ function PlaySong({ peakData, duration, url }: Props) {
             {convertSecondsToTime(currentTimePlaying)}
           </p>
         </div>
-        <div className="w-full overflow-hidden">
-          {peaks.length > 0 && (
-            // @ts-ignore
-            <Waveform
-              // @ts-ignore
-              peaks={peaks}
-              height={40}
-              pos={currentTimePlaying}
-              duration={duration}
-              onClick={handleSeeking}
-              color="#c7c7c9"
-              progressColor="tomato"
-              transitionDuration={100}
-            />
-          )}
-        </div>
+        <Waveform
+          peakData={peakData}
+          pos={currentTimePlaying}
+          duration={duration}
+          onClick={handleSeeking}
+        />
         <div className="w-16 flex-none">
           <p className="text-center">
             {convertSecondsToTime(Number(duration))}

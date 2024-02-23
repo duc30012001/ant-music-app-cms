@@ -29,14 +29,20 @@ function SongPage({}: Props) {
     limit: PAGE_SIZE,
   };
 
-  const { dataFilter, onSearch } = useFilter<DataFilterSong>(defaultFilter);
+  const { dataFilter, onSearch, onChangeFilter, onChangePage } =
+    useFilter<DataFilterSong>(defaultFilter);
 
   const { dataSong, totalRecord } = useSongList(dataFilter);
   console.log('dataSong:', dataSong);
 
   const currentPage = getCurrentPage(dataFilter.limit, PAGE_SIZE);
   return (
-    <AppContainer appTitle="Bài hát" sidebarContent={<SongSidebar />}>
+    <AppContainer
+      appTitle="Bài hát"
+      sidebarContent={
+        <SongSidebar dataFilter={dataFilter} onChangeFilter={onChangeFilter} />
+      }
+    >
       <SongHeader
         dataFilter={dataFilter}
         onSearch={onSearch}
@@ -47,7 +53,7 @@ function SongPage({}: Props) {
         pageSize={PAGE_SIZE}
         current={currentPage}
         total={totalRecord}
-        // onChange={onChangePage}
+        onChange={onChangePage}
       />
 
       {typeModal === TYPE_MODAL_SONG.CREATE && (

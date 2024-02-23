@@ -2,6 +2,7 @@ import { axiosAuth } from '@/apiClient';
 import { ListResponse, ResponseDetail } from '@/types';
 import {
   DataFilterSong,
+  DataSidebar,
   SongData,
   SongDetailExists,
   SongPayload,
@@ -12,6 +13,15 @@ export const songApi = {
     return axiosAuth.get<ListResponse<SongData>>('/api/v1/manager/song/list', {
       params,
     });
+  },
+
+  getDataSidebar(params: DataFilterSong) {
+    return axiosAuth.get<ResponseDetail<DataSidebar>>(
+      '/api/v1/manager/sidebar-song',
+      {
+        params,
+      }
+    );
   },
 
   getExistDetail(link: string) {

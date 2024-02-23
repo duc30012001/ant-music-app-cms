@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { songApi } from '../api';
 import { songQueryKeys } from '../constants';
-import { DataFilterSong, SongDetailExists } from '../types';
+import { DataFilterSong, DataSidebar, SongDetailExists } from '../types';
 
 export function useSongList(params: Partial<DataFilterSong>) {
   const { data, ...restResponse } = useQuery({
@@ -28,5 +28,18 @@ export function useSongDetail(link: string) {
   return {
     ...restResponse,
     dataSongDetail: data?.data?.docs?.result ?? ({} as SongDetailExists),
+  };
+}
+
+export function useSongSidebar(params: Partial<DataFilterSong>) {
+  const { data, ...restResponse } = useQuery({
+    queryKey: [...songQueryKeys.getDataSidebar, params],
+    queryFn: () => songApi.getDataSidebar(params),
+    placeholderData: (previousData) => previousData,
+  });
+
+  return {
+    ...restResponse,
+    dataSidebar: data?.data?.docs ?? ({} as DataSidebar),
   };
 }

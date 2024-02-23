@@ -20,10 +20,12 @@ export async function uploadFileToBucket(file: File): Promise<string> {
       throw new Error(`File size must be less than ${MAX_FILE_SIZE_MB} MB`);
     }
 
-    const { signedUrl, key }: Data = await axiosClient.post(
+    const response = await axiosClient.post<Data>(
       '/upload/get-signed-url',
       payload
     );
+
+    const { signedUrl, key } = response.data;
 
     const fileURL = URL + key;
 
@@ -47,7 +49,6 @@ export async function uploadFileToBucket(file: File): Promise<string> {
   } catch (error) {
     const message = 'error';
     // const message = handleGetErrorMessage(error);
-    console.log('message:', message);
     showNotification('error', message);
     return '';
   }

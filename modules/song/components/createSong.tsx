@@ -8,16 +8,19 @@ import {
 import { AppFormItem } from '@/components/ui/form';
 import { ImageUpload } from '@/components/ui/input';
 import { AppModal, AppModalProps } from '@/components/ui/modal';
+import { uploadFileToBucket } from '@/components/ui/textEditor/api';
 import { DATE_FORMAT } from '@/enums';
 import { cn, handleGetErrorMessage, showNotification } from '@/helpers';
 import { useActive, useTranslate } from '@/hooks';
 import { FileTypeSelect } from '@/modules/fileType/components';
+import { useFileTypeList } from '@/modules/fileType/hooks';
 import { GenreSelect } from '@/modules/genre/components';
 import { ThemeSelect } from '@/modules/theme/components';
 import { Button, Divider, Form, Input, InputProps } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { songApi } from '../api';
+import { MP3_CONTENT_TYPE } from '../constants';
 import { useCreateSong } from '../hooks';
 import { SongDetailExists, SongPayload } from '../types';
 
@@ -36,24 +39,24 @@ const ViewOnlyInput = ({ viewOnly, ...props }: ViewOnlyInputProps) => (
 );
 
 function CreateSong({ ...props }: Props) {
-  const songSlug = useRef<string | undefined>();
+  const { dataFileType } = useFileTypeList({});
   const { messages } = useTranslate();
   const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
   const { onStop } = usePlaySong();
 
   const [songData, setSongData] = useState<SongDetailExists | undefined>();
+  const [songLink, setSongLink] = useState<string | undefined>();
   const { createSong } = useCreateSong();
 
   const onGetInfoSong = async () => {
-    const value = songSlug.current;
-    if (!value) {
+    if (!songLink) {
       showNotification('error', 'Vui lòng nhập link bài hát');
       return;
     }
     active();
     songApi
-      .getExistDetail(value)
+      .getExistDetail(songLink)
       .then((response) => {
         const data = response.data.docs.result;
         const { name, genres, themes, upload_date, phaseId, detail_url } = data;
@@ -82,23 +85,46 @@ function CreateSong({ ...props }: Props) {
       });
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     active();
+    const thumbnailFile = values.thumbnail?.fileList?.[0];
+    const originalThumbnailFile = thumbnailFile?.originFileObj;
+    let imageUrl: string | undefined = undefined;
+
+    if (originalThumbnailFile) {
+      imageUrl = await uploadFileToBucket(originalThumbnailFile);
+    }
+
     const song = values.detailURL
       .filter((item: any) => !!item.fileTypeId)
       .map((item: any) => ({ id: item.id, fileTypeId: item.fileTypeId }));
+
+    if (song.length === 0) {
+      const mp3File = songData?.detail_url.find(
+        (item) => item.file_type === MP3_CONTENT_TYPE
+      );
+      const defaultFileType = dataFileType[0];
+      const data = {
+        id: mp3File?.id,
+        fileTypeId: defaultFileType?.id,
+      };
+      song.push(data);
+    }
+
     const payload: SongPayload = {
       name: values.name,
       songId: songData?.id as number,
       genreId: values.genreId,
       themeId: values.themeId,
       song,
+      thumbnail: imageUrl,
     };
     createSong({ payload, onSuccess, onError });
   };
 
   const onSuccess = () => {
     form.resetFields();
+    setSongLink(undefined);
     inActive();
   };
 
@@ -127,7 +153,8 @@ function CreateSong({ ...props }: Props) {
           </label>
           <Input
             name="songSlug"
-            onChange={(e) => (songSlug.current = e.target.value)}
+            value={songLink}
+            onChange={(e) => setSongLink(e.target.value)}
           />
           <Button type="primary" onClick={onGetInfoSong} loading={isActive}>
             Lấy thông tin
@@ -219,18 +246,20 @@ function CreateSong({ ...props }: Props) {
                         name={[name, 'fileTypeId']}
                         label="Loại file"
                       >
-                        <FileTypeSelect />
+                        <FileTypeSelect allowClear />
                       </AppFormItem>
                       <Form.Item noStyle shouldUpdate>
                         {({ getFieldValue }) => {
                           const currentValues = getFieldValue('detailURL');
-                          const { duration, peakdata, url } =
+                          const { duration, peakdata, url, fileType } =
                             currentValues[index] ?? {};
+
+                          const fileName = fileType?.name ?? 'MP3';
                           return (
                             <AppFormItem
                               {...restField}
                               name={[name, 'id']}
-                              label="File"
+                              label={fileName}
                             >
                               <PlaySong
                                 duration={duration}

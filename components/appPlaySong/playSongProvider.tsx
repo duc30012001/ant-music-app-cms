@@ -7,6 +7,7 @@ import {
 } from 'react';
 import ReactPlayer from 'react-player';
 import { OnProgressProps } from 'react-player/base';
+import PlayerBar from './playerBar';
 
 interface Props extends PropsWithChildren {}
 
@@ -126,6 +127,7 @@ function PlaySongProvider({ children }: Props) {
         style={{ display: 'none' }}
         // loop={loop}
       />
+      <PlayerBar />
     </PlaySongContext.Provider>
   );
 }

@@ -30,7 +30,6 @@ export async function middleware(req: NextRequest) {
 
   if (cookieLocale && req.nextUrl.locale !== cookieLocale) {
     const newURL = `/${cookieLocale}${req.nextUrl.pathname}${req.nextUrl.search}`;
-    console.log('newURL:', newURL);
     return NextResponse.redirect(new URL(newURL, req.url));
   }
 }
