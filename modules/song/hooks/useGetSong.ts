@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { songApi } from '../api';
 import { songQueryKeys } from '../constants';
-import { DataFilterSong, DataSidebar, SongDetailExists } from '../types';
+import {
+  DataFilterSong,
+  DataSidebar,
+  SongData,
+  SongDetailExists,
+} from '../types';
 
 export function useSongList(params: Partial<DataFilterSong>) {
   const { data, ...restResponse } = useQuery({
@@ -17,7 +22,7 @@ export function useSongList(params: Partial<DataFilterSong>) {
   };
 }
 
-export function useSongDetail(link: string) {
+export function useSongDetailExist(link: string) {
   const { data, ...restResponse } = useQuery({
     queryKey: [...songQueryKeys.getExistDetail, link],
     queryFn: () => songApi.getExistDetail(link),
@@ -31,6 +36,21 @@ export function useSongDetail(link: string) {
   };
 }
 
+export function useSongDetailExistById(id: SongData['songId']) {
+  const { data, ...restResponse } = useQuery({
+    queryKey: [...songQueryKeys.getExistDetailById, id],
+    queryFn: () => songApi.getExistDetailById(id),
+    placeholderData: (previousData) => previousData,
+    enabled: Boolean(id),
+  });
+
+  return {
+    ...restResponse,
+    dataSongDetailExistById:
+      data?.data?.docs?.result ?? ({} as SongDetailExists),
+  };
+}
+
 export function useSongSidebar(params: Partial<DataFilterSong>) {
   const { data, ...restResponse } = useQuery({
     queryKey: [...songQueryKeys.getDataSidebar, params],
@@ -41,5 +61,19 @@ export function useSongSidebar(params: Partial<DataFilterSong>) {
   return {
     ...restResponse,
     dataSidebar: data?.data?.docs ?? ({} as DataSidebar),
+  };
+}
+
+export function useSongDetail(songId: SongData['id']) {
+  const { data, ...restResponse } = useQuery({
+    queryKey: [...songQueryKeys.getDetail, songId],
+    queryFn: () => songApi.getDetail(songId),
+    placeholderData: (previousData) => previousData,
+    enabled: Boolean(songId),
+  });
+
+  return {
+    ...restResponse,
+    dataSongDetail: data?.data?.docs?.data ?? ({} as SongData),
   };
 }

@@ -17,11 +17,16 @@ export function useUpdateFileTypeLocation() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateFileTypeLocation) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: UpdateFileTypeLocation) =>
       fileTypeApi.updateFileTypeLocation(payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateFileTypeLocation = (payload: UpdateFileTypeLocation) => {

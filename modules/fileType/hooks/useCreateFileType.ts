@@ -15,11 +15,16 @@ export function useCreateFileType() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: CreateFileType) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: CreateFileType) =>
       fileTypeApi.createFileType(payload),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const createFileType = (variables: CreateFileType) => {

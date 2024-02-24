@@ -1,36 +1,40 @@
-// import { handleError, showNotification } from '@/helpers';
-// import { useAuth, useTranslate } from '@/hooks';
-// import { useMutation, useQueryClient } from '@tanstack/react-query';
-// import { themeApi } from '../api';
-// import { themeQueryKeys } from '../constants';
-// import { UpdateTheme } from '../types';
+import { handleError, showNotification } from '@/helpers';
+import { useTranslate } from '@/hooks';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { songApi } from '../api';
+import { songQueryKeys } from '../constants';
+import { UpdateSong } from '../types';
 
-// export function useUpdateTheme() {
-//   const queryClient = useQueryClient();
-//   const { profile } = useAuth();
-//   const { messages } = useTranslate();
+export function useUpdateSong() {
+  const queryClient = useQueryClient();
+  const { messages } = useTranslate();
 
-//   const handleSuccess = (data: any, { themeId, onSuccess }: UpdateTheme) => {
-//     queryClient.invalidateQueries({
-//       queryKey: themeQueryKeys.getList,
-//     });
-//     queryClient.invalidateQueries({
-//       queryKey: [...themeQueryKeys.getDetail, themeId],
-//     });
-//     showNotification('success', messages('message.updateSuccessfully'));
-//     onSuccess?.();
-//   };
+  const handleSuccess = (data: any, { songId, onSuccess }: UpdateSong) => {
+    queryClient.invalidateQueries({
+      queryKey: songQueryKeys.getList,
+    });
+    queryClient.invalidateQueries({
+      queryKey: [...songQueryKeys.getDetail, songId],
+    });
+    showNotification('success', messages('message.updateSuccessfully'));
+    onSuccess?.();
+  };
 
-//   const mutation = useMutation({
-//     mutationFn: ({ themeId, payload }: UpdateTheme) =>
-//       themeApi.updateTheme(themeId, payload),
-//     onSuccess: handleSuccess,
-//     onError: handleError,
-//   });
+  const handleOnError = (error: any, { onError }: UpdateSong) => {
+    handleError(error);
+    onError?.();
+  };
 
-//   const updateTheme = (variables: UpdateTheme) => {
-//     mutation.mutate(variables);
-//   };
+  const mutation = useMutation({
+    mutationFn: ({ songId, payload }: UpdateSong) =>
+      songApi.updateSong(songId, payload),
+    onSuccess: handleSuccess,
+    onError: handleOnError,
+  });
 
-//   return { ...mutation, updateTheme };
-// }
+  const updateSong = (variables: UpdateSong) => {
+    mutation.mutate(variables);
+  };
+
+  return { ...mutation, updateSong };
+}

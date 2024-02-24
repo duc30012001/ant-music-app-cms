@@ -1,4 +1,8 @@
+import { cn } from '@/helpers';
 import ButtonIcon from '@/modules/song/components/buttonIcon';
+import { Tooltip } from 'antd';
+import { useState } from 'react';
+import { FaMinus, FaTimes } from 'react-icons/fa';
 import {
   IoPlay,
   IoPlaySkipBack,
@@ -14,8 +18,21 @@ import Waveform from './waveform';
 type Props = {};
 
 function PlayerBar({}: Props) {
+  const [isMinimize, setIsMinimize] = useState(false);
+
+  function toggleMinimize() {
+    setIsMinimize(!isMinimize);
+  }
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center gap-10 bg-gray-200 py-3 pl-20 pr-24">
+    <div
+      className={cn(
+        'fixed bottom-0 left-0 right-0 z-50 flex min-h-20 items-center gap-10 bg-gray-200 py-3 pl-20 pr-24 transition-all duration-500',
+        {
+          '-bottom-20': isMinimize,
+        }
+      )}
+    >
       <div className="flex items-center">
         <ButtonIcon className="p-3 text-2xl" icon={<IoShuffle />} />
         <ButtonIcon className="p-3 text-2xl" icon={<IoPlaySkipBack />} />
@@ -41,6 +58,22 @@ function PlayerBar({}: Props) {
       <div className="flex-none">
         <ButtonIcon title="Tải xuống" icon={<LuDownload />} />
         <ButtonIcon title="Bài gốc" icon={<LuExternalLink />} />
+      </div>
+
+      <div className="absolute -top-5 right-0 flex items-center overflow-hidden rounded-t-lg bg-gray-200">
+        <Tooltip title="Thu nhỏ" placement="topRight">
+          <button
+            className="grid place-content-center px-3 py-1 hover:bg-gray-300"
+            onClick={toggleMinimize}
+          >
+            <FaMinus />
+          </button>
+        </Tooltip>
+        <Tooltip title="Đóng" placement="topRight">
+          <button className="grid place-content-center px-3 py-1 hover:bg-gray-300">
+            <FaTimes />
+          </button>
+        </Tooltip>
       </div>
     </div>
   );

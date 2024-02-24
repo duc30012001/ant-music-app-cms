@@ -3,7 +3,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PropsWithChildren, useState } from 'react';
 
 interface Props extends PropsWithChildren {
@@ -17,7 +16,7 @@ function ReactQueryProvider({ pageProps, children }: Props) {
       <HydrationBoundary state={pageProps.dehydratedState}>
         {children}
       </HydrationBoundary>
-      <ReactQueryDevtools />
+      {/* <ReactQueryDevtools /> */}
     </QueryClientProvider>
   );
 }

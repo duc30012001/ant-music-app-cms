@@ -90,7 +90,11 @@ function SongItem({ data, openModal }: Props) {
         <a href={songLink} target="_blank">
           <ButtonIcon title="Bài gốc" icon={<LuExternalLink />} />
         </a>
-        <ButtonIcon title="Cập nhật" icon={<LuPenSquare />} />
+        <ButtonIcon
+          title="Cập nhật"
+          icon={<LuPenSquare />}
+          onClick={() => openModal(TYPE_MODAL_SONG.UPDATE, data)}
+        />
       </div>
     </div>
   );

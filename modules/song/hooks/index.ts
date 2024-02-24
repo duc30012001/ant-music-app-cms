@@ -1,4 +1,4 @@
 export * from './useCreateSong';
-// export * from './useDeleteSong';
+export * from './useDeleteSong';
 export * from './useGetSong';
-// export * from './useUpdateSong';
+export * from './useUpdateSong';

@@ -15,10 +15,15 @@ export function useCreateTheme() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: CreateTheme) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: CreateTheme) => themeApi.createTheme(payload),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const createTheme = (variables: CreateTheme) => {

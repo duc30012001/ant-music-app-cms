@@ -2,6 +2,7 @@ import Seo from '@/components/seo';
 import { defaultConfig } from '@/constants';
 import { useActive } from '@/hooks';
 // import { useIsFetching, useIsMutating } from '@tanstack/react-query';
+import { PlaySongProvider } from '@/components/appPlaySong';
 import { Layout } from 'antd';
 import { useRouter } from 'next/router';
 import { ReactNode, useMemo } from 'react';
@@ -86,22 +87,24 @@ export default function AdminLayout({ children }: Props) {
           keyword: defaultConfig.APP_KEYWORDS,
         }}
       />
-      <Layout>
-        <Header collapsed={isActive} toggleCollapsed={toggleActive} />
+      <PlaySongProvider>
         <Layout>
-          <Sidebar
-            collapsed={isActive}
-            onBreakpoint={changeActive}
-            trigger={null}
-          />
+          <Header collapsed={isActive} toggleCollapsed={toggleActive} />
           <Layout>
-            <div className="h-[calc(100vh-4rem)]">
-              <Content>{children}</Content>
-              {/* <AppLoader className="bg-white" loading={loading} /> */}
-            </div>
+            <Sidebar
+              collapsed={isActive}
+              onBreakpoint={changeActive}
+              trigger={null}
+            />
+            <Layout>
+              <div className="h-[calc(100vh-4rem)]">
+                <Content>{children}</Content>
+                {/* <AppLoader className="bg-white" loading={loading} /> */}
+              </div>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
+      </PlaySongProvider>
     </>
   );
 }

@@ -15,11 +15,16 @@ export function useDeleteFileType() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: DeleteFileType) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ fileTypeId }: DeleteFileType) =>
       fileTypeApi.deleteFileType(fileTypeId),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const deleteFileType = (variables: DeleteFileType) => {

@@ -17,11 +17,16 @@ export function useUpdateThemeLocation() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateThemeLocation) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: UpdateThemeLocation) =>
       themeApi.updateThemeLocation(payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateThemeLocation = (payload: UpdateThemeLocation) => {

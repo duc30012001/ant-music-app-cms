@@ -9,6 +9,7 @@ import {
   SongHeader,
   SongList,
   SongSidebar,
+  UpdateSong,
 } from '@/modules/song/components';
 import { TYPE_MODAL_SONG } from '@/modules/song/enums';
 import { useSongList } from '@/modules/song/hooks';
@@ -34,7 +35,6 @@ function SongPage({}: Props) {
     useFilter<DataFilterSong>(defaultFilter);
 
   const { dataSong, totalRecord } = useSongList(dataFilter);
-  console.log('dataSong:', dataSong);
 
   const currentPage = getCurrentPage(dataFilter.limit, PAGE_SIZE);
   return (
@@ -59,6 +59,10 @@ function SongPage({}: Props) {
 
       {typeModal === TYPE_MODAL_SONG.CREATE && (
         <CreateSong open onCancel={closeModal} />
+      )}
+
+      {typeModal === TYPE_MODAL_SONG.UPDATE && (
+        <UpdateSong open onCancel={closeModal} dataEdit={dataEdit} />
       )}
 
       {typeModal === TYPE_MODAL_SONG.DOWNLOAD && (

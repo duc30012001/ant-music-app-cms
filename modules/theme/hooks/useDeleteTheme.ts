@@ -15,10 +15,15 @@ export function useDeleteTheme() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: DeleteTheme) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ themeId }: DeleteTheme) => themeApi.deleteTheme(themeId),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const deleteTheme = (variables: DeleteTheme) => {
