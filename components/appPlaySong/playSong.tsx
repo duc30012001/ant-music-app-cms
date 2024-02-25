@@ -1,58 +1,44 @@
-import { convertSecondsToTime } from '@/helpers';
+import { cn } from '@/helpers';
+import { useSongStatus } from '@/hooks';
 import { FaPause, FaPlay } from 'react-icons/fa';
-import { usePlaySong } from './playSongProvider';
+import SongTime from './songTime';
 import Waveform from './waveform';
 
 type Props = {
   peakData: string;
   duration: number | string;
   url: string;
+  showPlayButton?: boolean;
 };
 
-function PlaySong({ peakData, duration, url }: Props) {
-  const peaks = peakData?.split(';') ?? [];
-  const { onSeek, onStop, onPlay, ...value } = usePlaySong();
+function PlaySong({ peakData, duration, url, showPlayButton = true }: Props) {
+  const id = Math.random() * -1;
+  const { isPlaying, handlePlay, currentTimePlaying, handleSeeking } =
+    useSongStatus(id);
 
-  const isPlaying = url === value.url ? value.isPlaying : false;
-  const currentTimePlaying = url === value.url ? value.currentTimePlaying : 0;
-
-  const handleSeeking = (second: number) => {
-    onSeek({ second, url });
-  };
-
-  const handlePlay = () => {
-    if (isPlaying) {
-      onStop();
-    } else {
-      onPlay(url);
-    }
-  };
   return (
     <div>
       <div className="flex h-full items-center">
         <div
-          className="grid aspect-square w-9 flex-none cursor-pointer place-content-center rounded-full text-white"
+          className={cn(
+            'grid aspect-square w-9 flex-none cursor-pointer place-content-center rounded-full text-white',
+            {
+              hidden: !showPlayButton,
+            }
+          )}
           style={{ backgroundColor: 'tomato' }}
-          onClick={handlePlay}
+          onClick={() => handlePlay({ songId: id, url })}
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </div>
-        <div className="w-16 flex-none">
-          <p className="text-center">
-            {convertSecondsToTime(currentTimePlaying)}
-          </p>
-        </div>
+        <SongTime value={currentTimePlaying} />
         <Waveform
           peakData={peakData}
           pos={currentTimePlaying}
           duration={duration}
-          onClick={handleSeeking}
+          onClick={(second) => handleSeeking({ url, second, songId: id })}
         />
-        <div className="w-16 flex-none">
-          <p className="text-center">
-            {convertSecondsToTime(Number(duration))}
-          </p>
-        </div>
+        <SongTime value={duration} />
       </div>
     </div>
   );

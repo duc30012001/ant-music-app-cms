@@ -43,7 +43,7 @@ function CreateSong({ ...props }: Props) {
   const { messages } = useTranslate();
   const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
-  const { onStop } = usePlaySong();
+  // const { onStop } = usePlaySong();
 
   const [songData, setSongData] = useState<SongDetailExists | undefined>();
   const [songLink, setSongLink] = useState<string | undefined>();
@@ -132,10 +132,10 @@ function CreateSong({ ...props }: Props) {
     inActive();
   };
 
-  useEffect(() => {
-    return () => onStop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   return () => onStop();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <AppModal

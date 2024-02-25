@@ -4,4 +4,5 @@ export * from './useFilter';
 export * from './useLoading';
 export * from './useLocale';
 export * from './useModal';
+export * from './useSongStatus';
 export * from './useTranslate';

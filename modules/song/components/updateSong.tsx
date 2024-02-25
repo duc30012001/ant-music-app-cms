@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PlaySong, usePlaySong } from '@/components/appPlaySong';
+import { PlaySong } from '@/components/appPlaySong';
 import {
   AppForm,
   FormDivider,
@@ -50,7 +50,7 @@ function UpdateSong({ dataEdit, ...props }: Props) {
   const { messages } = useTranslate();
   const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
-  const { onStop } = usePlaySong();
+  // const { onStop } = usePlaySong();
   const { updateSong } = useUpdateSong();
 
   const onFinish = async (values: any) => {
@@ -98,9 +98,9 @@ function UpdateSong({ dataEdit, ...props }: Props) {
     inActive();
   };
 
-  useEffect(() => {
-    return () => onStop();
-  }, []);
+  // useEffect(() => {
+  //   return () => onStop();
+  // }, []);
 
   useEffect(() => {
     const {

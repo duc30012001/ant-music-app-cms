@@ -1,8 +1,9 @@
 import { SongTime, Waveform } from '@/components/appPlaySong';
-import { OpenModalProps } from '@/hooks';
+import { getOriginalSongURL } from '@/helpers';
+import { OpenModalProps, useSongStatus } from '@/hooks';
 import { useHover } from '@uidotdev/usehooks';
 import { Avatar } from 'antd';
-import { FaPlay } from 'react-icons/fa';
+import { FaPause, FaPlay } from 'react-icons/fa';
 import { LuDownload, LuExternalLink, LuPenSquare } from 'react-icons/lu';
 import { RiMusicFill } from 'react-icons/ri';
 import { TYPE_MODAL_SONG } from '../enums';
@@ -16,15 +17,15 @@ type Props = {
 
 const SIZE = 45;
 
-const ANT_MUSIC_WEBSITE = 'https://ant-music.net';
-
 function SongItem({ data, openModal }: Props) {
-  const { name, songGenre, songKey, thumbnail, songTheme, idString } = data;
+  const { name, songGenre, songKey, thumbnail, songTheme, idString, id } = data;
   const [ref, hovering] = useHover();
   const audio = songKey?.[0] ?? {};
-  const { duration, peakdata } = audio;
+  const { duration, peakdata, url } = audio;
+  const { isPlaying, handlePlay, currentTimePlaying, handleSeeking } =
+    useSongStatus(id);
 
-  const songLink = `${ANT_MUSIC_WEBSITE}/songs/${idString}`;
+  const songLink = getOriginalSongURL(idString);
 
   return (
     <div
@@ -32,12 +33,19 @@ function SongItem({ data, openModal }: Props) {
       className="flex items-center gap-4 px-7 py-3 hover:bg-slate-100"
     >
       <div className="relative">
-        {hovering && (
+        {(hovering || isPlaying) && (
           <Avatar
             className="!absolute top-0 z-10 cursor-pointer"
             style={{ backgroundColor: 'tomato' }}
             size={SIZE}
-            icon={<FaPlay className="inline align-baseline text-base" />}
+            icon={
+              isPlaying ? (
+                <FaPause className="inline align-baseline text-base" />
+              ) : (
+                <FaPlay className="inline align-baseline text-base" />
+              )
+            }
+            onClick={() => handlePlay({ url, songId: id })}
           />
         )}
         <Avatar
@@ -50,9 +58,9 @@ function SongItem({ data, openModal }: Props) {
       <div className="w-60 flex-none truncate">{name}</div>
       <Waveform
         peakData={peakdata ?? ''}
-        //   pos={currentTimePlaying}
+        pos={currentTimePlaying}
         duration={duration}
-        //   onClick={handleSeeking}
+        onClick={(second) => handleSeeking({ url, second, songId: id })}
       />
       <SongTime value={duration} />
       <div className="w-52 flex-none">

@@ -7,7 +7,7 @@ type Props = {
 
 function SongTime({ value, className }: Props) {
   return (
-    <p className={cn('w-16 flex-none', className)}>
+    <p className={cn('w-16 flex-none text-center', className)}>
       {convertSecondsToTime(Number(value))}
     </p>
   );

@@ -11,13 +11,18 @@ import PlayerBar from './playerBar';
 
 interface Props extends PropsWithChildren {}
 
-interface OnSeek {
+export interface OnPlay {
+  url: string;
+  songId: number;
+}
+
+export interface OnSeek extends OnPlay {
   second: number;
-  url?: string;
 }
 
 interface CurrentSong {
-  id: number | null;
+  songId: number | null;
+  fileId: number | null;
   url: string;
   isPlaying: boolean;
   currentTimePlaying: number;
@@ -25,15 +30,20 @@ interface CurrentSong {
 
 interface PlaySongValue extends CurrentSong {
   onSeek: (value: OnSeek) => void;
-  onPlay: (url?: string) => void;
-  onStop: () => void;
+  onPlay: (value: OnPlay) => void;
+  onStop: (stop?: boolean) => void;
 }
 
-const PlaySongContext = createContext<PlaySongValue>({
-  id: null,
+const defaultValue = {
+  songId: null,
+  fileId: null,
   url: '',
   isPlaying: false,
   currentTimePlaying: 0,
+};
+
+const PlaySongContext = createContext<PlaySongValue>({
+  ...defaultValue,
   onPlay: () => {},
   onSeek: () => {},
   onStop: () => {},
@@ -42,39 +52,40 @@ const PlaySongContext = createContext<PlaySongValue>({
 export const usePlaySong = () => useContext(PlaySongContext);
 
 function PlaySongProvider({ children }: Props) {
-  const songURL = useRef('');
+  const songIdRef = useRef<number | null>(null);
 
   const reactPlayerRef = useRef<ReactPlayer | null>(null);
 
-  const [currentSong, setCurrentSong] = useState<CurrentSong>({
-    id: null,
-    url: '',
-    isPlaying: false,
-    currentTimePlaying: 0,
-  });
-  const { isPlaying, url, currentTimePlaying } = currentSong;
+  const [currentSong, setCurrentSong] = useState<CurrentSong>(defaultValue);
+  const { isPlaying, url, songId, currentTimePlaying } = currentSong;
 
-  const onPlay = (url?: string) => {
+  const onPlay = ({ url, songId }: OnPlay) => {
     setCurrentSong((currentValue) => ({
       ...currentValue,
       isPlaying: true,
       url: url ?? currentValue.url,
+      songId: songId ?? currentValue.songId,
     }));
   };
 
-  const onStop = () => {
-    setCurrentSong((currentValue) => ({
-      ...currentValue,
-      isPlaying: false,
-    }));
+  const onStop = (close?: boolean) => {
+    if (close) {
+      setCurrentSong(defaultValue);
+    } else {
+      setCurrentSong((currentValue) => ({
+        ...currentValue,
+        isPlaying: false,
+      }));
+    }
   };
 
-  const onSeek = ({ second, url }: OnSeek) => {
+  const onSeek = ({ second, url, songId }: OnSeek) => {
     reactPlayerRef.current?.seekTo(second, 'seconds');
     setCurrentSong((currentValue) => ({
       ...currentValue,
       isPlaying: true,
       url: url ?? currentValue.url,
+      songId: songId ?? currentValue.songId,
       currentTimePlaying: second,
     }));
   };
@@ -87,8 +98,8 @@ function PlaySongProvider({ children }: Props) {
   };
 
   const onReady = () => {
-    if (songURL.current !== url) {
-      songURL.current = url;
+    if (Number(songIdRef.current) !== Number(songId)) {
+      songIdRef.current = songId;
       reactPlayerRef.current?.seekTo(currentTimePlaying, 'seconds');
     }
   };
@@ -111,7 +122,7 @@ function PlaySongProvider({ children }: Props) {
         height="50px"
         controls
         playing={isPlaying}
-        onPlay={onPlay}
+        // onPlay={onPlay}
         volume={1}
         onProgress={handleProgress}
         // onEnded={onEnded}

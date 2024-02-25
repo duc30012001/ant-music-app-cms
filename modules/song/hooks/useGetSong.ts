@@ -64,10 +64,10 @@ export function useSongSidebar(params: Partial<DataFilterSong>) {
   };
 }
 
-export function useSongDetail(songId: SongData['id']) {
+export function useSongDetail(songId: SongData['id'] | null) {
   const { data, ...restResponse } = useQuery({
     queryKey: [...songQueryKeys.getDetail, songId],
-    queryFn: () => songApi.getDetail(songId),
+    queryFn: () => songApi.getDetail(songId as SongData['id']),
     placeholderData: (previousData) => previousData,
     enabled: Boolean(songId),
   });
