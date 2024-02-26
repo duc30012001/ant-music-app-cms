@@ -9,10 +9,16 @@ type Props = {
   duration: number | string;
   url: string;
   showPlayButton?: boolean;
+  id?: number;
 };
 
-function PlaySong({ peakData, duration, url, showPlayButton = true }: Props) {
-  const id = Math.random() * -1;
+function PlaySong({
+  peakData,
+  duration,
+  url,
+  showPlayButton = true,
+  id = -1,
+}: Props) {
   const { isPlaying, handlePlay, currentTimePlaying, handleSeeking } =
     useSongStatus(id);
 

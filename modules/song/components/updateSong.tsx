@@ -42,7 +42,6 @@ const ViewOnlyInput = ({ viewOnly, ...props }: ViewOnlyInputProps) => (
 
 function UpdateSong({ dataEdit, ...props }: Props) {
   const { dataSongDetail } = useSongDetail(dataEdit?.id as SongData['id']);
-  console.log('dataSongDetail:', dataSongDetail);
   const { dataSongDetailExistById } = useSongDetailExistById(
     dataEdit?.songId as SongData['songId']
   );
@@ -146,10 +145,7 @@ function UpdateSong({ dataEdit, ...props }: Props) {
     };
 
     form.setFieldsValue(values);
-  }, [
-    JSON.stringify(dataSongDetailExistById),
-    JSON.stringify(dataSongDetailExistById),
-  ]);
+  }, [dataSongDetailExistById, dataSongDetail]);
 
   return (
     <AppModal
@@ -246,7 +242,7 @@ function UpdateSong({ dataEdit, ...props }: Props) {
                       <Form.Item noStyle shouldUpdate>
                         {({ getFieldValue }) => {
                           const currentValues = getFieldValue('detailURL');
-                          const { duration, peakdata, url, fileType } =
+                          const { duration, peakdata, url, fileType, id } =
                             currentValues[index] ?? {};
 
                           const fileName = fileType?.name ?? 'MP3';
@@ -260,6 +256,7 @@ function UpdateSong({ dataEdit, ...props }: Props) {
                                 duration={duration}
                                 peakData={peakdata}
                                 url={url}
+                                id={id}
                               />
                             </AppFormItem>
                           );

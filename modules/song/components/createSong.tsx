@@ -1,4 +1,4 @@
-import { PlaySong, usePlaySong } from '@/components/appPlaySong';
+import { PlaySong } from '@/components/appPlaySong';
 import {
   AppForm,
   FormDivider,
@@ -18,7 +18,7 @@ import { GenreSelect } from '@/modules/genre/components';
 import { ThemeSelect } from '@/modules/theme/components';
 import { Button, Divider, Form, Input, InputProps } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { songApi } from '../api';
 import { MP3_CONTENT_TYPE } from '../constants';
 import { useCreateSong } from '../hooks';
@@ -251,7 +251,7 @@ function CreateSong({ ...props }: Props) {
                       <Form.Item noStyle shouldUpdate>
                         {({ getFieldValue }) => {
                           const currentValues = getFieldValue('detailURL');
-                          const { duration, peakdata, url, fileType } =
+                          const { duration, peakdata, url, fileType, id } =
                             currentValues[index] ?? {};
 
                           const fileName = fileType?.name ?? 'MP3';
@@ -265,6 +265,7 @@ function CreateSong({ ...props }: Props) {
                                 duration={duration}
                                 peakData={peakdata}
                                 url={url}
+                                id={id}
                               />
                             </AppFormItem>
                           );
