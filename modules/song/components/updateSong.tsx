@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PlaySong } from '@/components/appPlaySong';
 import {
   AppForm,
@@ -10,21 +11,22 @@ import { ImageUpload } from '@/components/ui/input';
 import { AppModal, AppModalProps } from '@/components/ui/modal';
 import { uploadFileToBucket } from '@/components/ui/textEditor/api';
 import { DATE_FORMAT } from '@/enums';
-import { cn, handleGetErrorMessage, showNotification } from '@/helpers';
+import { cn } from '@/helpers';
 import { useActive, useTranslate } from '@/hooks';
 import { FileTypeSelect } from '@/modules/fileType/components';
 import { useFileTypeList } from '@/modules/fileType/hooks';
 import { GenreSelect } from '@/modules/genre/components';
 import { ThemeSelect } from '@/modules/theme/components';
-import { Button, Divider, Form, Input, InputProps } from 'antd';
+import { Form, Input, InputProps } from 'antd';
 import dayjs from 'dayjs';
-import { useState } from 'react';
-import { songApi } from '../api';
+import { useEffect } from 'react';
 import { MP3_CONTENT_TYPE } from '../constants';
-import { useCreateSong } from '../hooks';
-import { SongDetailExists, SongPayload } from '../types';
+import { useSongDetail, useSongDetailExistById, useUpdateSong } from '../hooks';
+import { SongData, SongPayload } from '../types';
 
-type Props = {} & Omit<AppModalProps, 'children'>;
+type Props = {
+  dataEdit: SongData | null;
+} & Omit<AppModalProps, 'children'>;
 
 interface ViewOnlyInputProps extends InputProps {
   viewOnly?: boolean;
@@ -38,58 +40,23 @@ const ViewOnlyInput = ({ viewOnly, ...props }: ViewOnlyInputProps) => (
   />
 );
 
-function CreateSong({ ...props }: Props) {
+function UpdateSong({ dataEdit, ...props }: Props) {
+  const { dataSongDetail } = useSongDetail(dataEdit?.id as SongData['id']);
+  const { dataSongDetailExistById } = useSongDetailExistById(
+    dataEdit?.songId as SongData['songId']
+  );
   const { dataFileType } = useFileTypeList({});
   const { messages } = useTranslate();
   const [form] = Form.useForm();
   const { active, isActive, inActive } = useActive();
   // const { onStop } = usePlaySong();
-
-  const [songData, setSongData] = useState<SongDetailExists | undefined>();
-  const [songLink, setSongLink] = useState<string | undefined>();
-  const { createSong } = useCreateSong();
-
-  const onGetInfoSong = async () => {
-    if (!songLink) {
-      showNotification('error', 'Vui lòng nhập link bài hát');
-      return;
-    }
-    active();
-    songApi
-      .getExistDetail(songLink)
-      .then((response) => {
-        const data = response.data.docs.result;
-        const { name, genres, themes, upload_date, phaseId, detail_url } = data;
-        const originalGenre = genres.map((item) => item.name).join(', ');
-        const originalTheme = themes.map((item) => item.name).join(', ');
-
-        const values = {
-          originalName: name,
-          name,
-          originalGenre,
-          originalTheme,
-          uploadDate: dayjs(upload_date).format(DATE_FORMAT.DATE_ONLY),
-          phaseId,
-          detailURL: detail_url,
-        };
-
-        form.setFieldsValue(values);
-        setSongData(data);
-      })
-      .catch((error) => {
-        const message = handleGetErrorMessage(error);
-        showNotification('error', message);
-      })
-      .finally(() => {
-        inActive();
-      });
-  };
+  const { updateSong } = useUpdateSong();
 
   const onFinish = async (values: any) => {
     active();
     const thumbnailFile = values.thumbnail?.fileList?.[0];
     const originalThumbnailFile = thumbnailFile?.originFileObj;
-    let imageUrl: string | undefined = undefined;
+    let imageUrl: string | undefined = thumbnailFile?.url;
 
     if (originalThumbnailFile) {
       imageUrl = await uploadFileToBucket(originalThumbnailFile);
@@ -100,7 +67,7 @@ function CreateSong({ ...props }: Props) {
       .map((item: any) => ({ id: item.id, fileTypeId: item.fileTypeId }));
 
     if (song.length === 0) {
-      const mp3File = songData?.detail_url.find(
+      const mp3File = dataSongDetailExistById?.detail_url.find(
         (item) => item.file_type === MP3_CONTENT_TYPE
       );
       const defaultFileType = dataFileType[0];
@@ -113,18 +80,16 @@ function CreateSong({ ...props }: Props) {
 
     const payload: SongPayload = {
       name: values.name,
-      songId: songData?.id as number,
       genreId: values.genreId,
       themeId: values.themeId,
       song,
       thumbnail: imageUrl,
+      songId: dataSongDetailExistById.id,
     };
-    createSong({ payload, onSuccess, onError });
+    updateSong({ songId: dataSongDetail.id, payload, onSuccess, onError });
   };
 
   const onSuccess = () => {
-    form.resetFields();
-    setSongLink(undefined);
     inActive();
   };
 
@@ -134,38 +99,64 @@ function CreateSong({ ...props }: Props) {
 
   // useEffect(() => {
   //   return () => onStop();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
+
+  useEffect(() => {
+    const {
+      name: originalName,
+      genres,
+      themes,
+      upload_date,
+      phaseId,
+      detail_url,
+    } = dataSongDetailExistById;
+    const originalGenre = genres?.map((item) => item.name)?.join(', ');
+    const originalTheme = themes?.map((item) => item.name)?.join(', ');
+
+    const { name, songGenre, songTheme, songKey } = dataSongDetail;
+    const genreId = songGenre?.map((item) => item.genre.id);
+    const themeId = songTheme?.map((item) => item.theme.id);
+
+    const detailURL = detail_url?.map((item) => {
+      const { id } = item;
+      const fileTypeId = songKey?.find((item) => item.detailUrlId === id)
+        ?.fileType?.id;
+      return {
+        ...item,
+        fileTypeId,
+      };
+    });
+
+    const values = {
+      name,
+      genreId,
+      themeId,
+      originalName,
+      originalGenre,
+      originalTheme,
+      uploadDate: dayjs(upload_date).format(DATE_FORMAT.DATE_ONLY),
+      phaseId,
+      detailURL,
+      thumbnail: dataSongDetail.thumbnail
+        ? {
+            fileList: [{ url: dataSongDetail.thumbnail, title: name }],
+          }
+        : undefined,
+    };
+
+    form.setFieldsValue(values);
+  }, [dataSongDetailExistById, dataSongDetail]);
 
   return (
     <AppModal
       {...props}
-      title={messages('common.create')}
+      title={messages('common.update')}
       footer={null}
       width={1200}
       loading={isActive}
       className="top-10"
     >
-      <div>
-        <div className="flex items-center gap-2 font-medium">
-          <label htmlFor="songSlug" className="flex-none">
-            Link bài hát
-          </label>
-          <Input
-            name="songSlug"
-            value={songLink}
-            onChange={(e) => setSongLink(e.target.value)}
-          />
-          <Button type="primary" onClick={onGetInfoSong} loading={isActive}>
-            Lấy thông tin
-          </Button>
-        </div>
-      </div>
-
-      <Divider />
-
       <AppForm
-        disabled={!songData}
         form={form}
         onFinish={onFinish}
         submitProps={{
@@ -175,23 +166,23 @@ function CreateSong({ ...props }: Props) {
         <FormMultiLangRow gutter={[80, 40]}>
           <FormMultiLangCol title="Dữ liệu gốc">
             <AppFormItem label="Tên bài hát" name="originalName">
-              <ViewOnlyInput viewOnly={!!songData} />
+              <ViewOnlyInput viewOnly />
             </AppFormItem>
 
             <AppFormItem label="Thể loại" name="originalGenre">
-              <ViewOnlyInput viewOnly={!!songData} />
+              <ViewOnlyInput viewOnly />
             </AppFormItem>
 
             <AppFormItem label="Chủ đề" name="originalTheme">
-              <ViewOnlyInput viewOnly={!!songData} />
+              <ViewOnlyInput viewOnly />
             </AppFormItem>
 
             <AppFormItem label="Ngày tải lên" name="uploadDate">
-              <ViewOnlyInput viewOnly={!!songData} />
+              <ViewOnlyInput viewOnly />
             </AppFormItem>
 
             <AppFormItem label="Vòng kiểm duyệt" name="phaseId">
-              <ViewOnlyInput viewOnly={!!songData} />
+              <ViewOnlyInput viewOnly />
             </AppFormItem>
           </FormMultiLangCol>
 
@@ -288,4 +279,4 @@ function CreateSong({ ...props }: Props) {
   );
 }
 
-export default CreateSong;
+export default UpdateSong;

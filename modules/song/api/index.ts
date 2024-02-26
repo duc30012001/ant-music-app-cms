@@ -1,10 +1,13 @@
 import { axiosAuth } from '@/apiClient';
 import { ListResponse, ResponseDetail } from '@/types';
 import {
+  DataDownload,
   DataFilterSong,
   DataSidebar,
   SongData,
+  SongDetailData,
   SongDetailExists,
+  SongKey,
   SongPayload,
 } from '../types';
 
@@ -13,6 +16,12 @@ export const songApi = {
     return axiosAuth.get<ListResponse<SongData>>('/api/v1/manager/song/list', {
       params,
     });
+  },
+
+  getDetail(songId: SongData['id']) {
+    return axiosAuth.get<ResponseDetail<SongDetailData>>(
+      `/api/v1/manager/song/${songId}`
+    );
   },
 
   getDataSidebar(params: DataFilterSong) {
@@ -33,19 +42,30 @@ export const songApi = {
     );
   },
 
+  getExistDetailById(songId: SongData['songId']) {
+    return axiosAuth.get<ResponseDetail<{ result: SongDetailExists }>>(
+      `/api/v1/manager/song/song-base/${songId}`
+    );
+  },
+
+  getLinkDownloadFile(id: SongKey['id'], name: string) {
+    return axiosAuth.get<ResponseDetail<DataDownload>>(
+      `/api/v1/manager/song/download-song/${id}`,
+      {
+        params: { name },
+      }
+    );
+  },
+
   createSong(payload: SongPayload) {
     return axiosAuth.post(`/api/v1/manager/song/add`, payload);
   },
 
-  // updateSong(songId: SongData['id'], payload: SongPayload) {
-  //   return axiosAuth.patch(`/api/v1/manager/song/${songId}`, payload, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //     },
-  //   });
-  // },
+  updateSong(songId: SongData['id'], payload: SongPayload) {
+    return axiosAuth.patch(`/api/v1/manager/song/${songId}`, payload);
+  },
 
-  // deleteSong(songId: SongData['id']) {
-  //   return axiosAuth.delete(`/api/v1/manager/song/${songId}`);
-  // },
+  deleteSong(songId: SongData['id']) {
+    return axiosAuth.delete(`/api/v1/manager/song/${songId}`);
+  },
 };

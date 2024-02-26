@@ -18,11 +18,16 @@ export function useUpdateUserStatus() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateStatusUser) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ userId, payload }: UpdateStatusUser) =>
       userApi.updateUserStatus(userId, payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateUserStatus: OnUpdateStatusUserType = (userId, value) => {

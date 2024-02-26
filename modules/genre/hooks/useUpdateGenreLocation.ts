@@ -17,11 +17,16 @@ export function useUpdateGenreLocation() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateGenreLocation) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: UpdateGenreLocation) =>
       genreApi.updateGenreLocation(payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateGenreLocation = (payload: UpdateGenreLocation) => {

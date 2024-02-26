@@ -6,6 +6,10 @@ export const songQueryKeys = {
   getDataSidebar: [QUERY_KEY.SONG.KEY, QUERY_KEY.SONG.GET_DATA_SIDEBAR],
   getDetail: [QUERY_KEY.SONG.KEY, QUERY_KEY.SONG.GET_SONG_DETAIL],
   getExistDetail: [QUERY_KEY.SONG.KEY, QUERY_KEY.SONG.GET_SONG_EXIST_DETAIL],
+  getExistDetailById: [
+    QUERY_KEY.SONG.KEY,
+    QUERY_KEY.SONG.GET_SONG_EXIST_DETAIL_BY_ID,
+  ],
 };
 
 export const SPLIT_CHARACTER = ',';

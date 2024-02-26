@@ -15,10 +15,15 @@ export function useDeleteGenre() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: DeleteGenre) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ genreId }: DeleteGenre) => genreApi.deleteGenre(genreId),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const deleteGenre = (variables: DeleteGenre) => {

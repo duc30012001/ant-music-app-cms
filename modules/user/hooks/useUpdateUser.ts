@@ -26,11 +26,16 @@ export function useUpdateUser() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateUser) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ userId, payload }: UpdateUser) =>
       userApi.updateUser(userId, payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateUser = (variables: UpdateUser) => {

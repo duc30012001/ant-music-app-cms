@@ -2,7 +2,7 @@
 
 - Create json file:
 
-  `echo '[{"origin":["https://ant-group-admin.vercel.app/","http://192.168.1.32:4500/", "http://192.168.1.37:3000/","https://fe.ant-group.net/","https://ant-group.net/"],"responseHeader":["*"],"method":["*"],"maxAgeSeconds":3600}]' > cors-config.json`
+  `echo '[{"origin":["https://ant-group-admin.vercel.app/","http://192.168.1.32:4500/", "http://192.168.1.24:3000/","https://fe.ant-group.net/","https://ant-group.net/"],"responseHeader":["*"],"method":["*"],"maxAgeSeconds":3600}]' > cors-config.json`
 
 - Set CORS for buckets:
 

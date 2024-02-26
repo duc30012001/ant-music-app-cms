@@ -15,10 +15,15 @@ export function useCreateGenre() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: CreateGenre) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: CreateGenre) => genreApi.createGenre(payload),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const createGenre = (variables: CreateGenre) => {

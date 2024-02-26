@@ -1,14 +1,16 @@
 import { cn } from '@/helpers';
 import { Tooltip } from 'antd';
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 
-type Props = {
+type Props = DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
   title?: ReactNode;
   icon: ReactNode;
-  className?: string;
 };
 
-function ButtonIcon({ title, icon, className }: Props) {
+function ButtonIcon({ title, icon, className, ...props }: Props) {
   return (
     <Tooltip title={title}>
       <button
@@ -16,6 +18,7 @@ function ButtonIcon({ title, icon, className }: Props) {
           'rounded-full p-3 text-xl text-gray-700 hover:bg-gray-300',
           className
         )}
+        {...props}
       >
         {icon}
       </button>

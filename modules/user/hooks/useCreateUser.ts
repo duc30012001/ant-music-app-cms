@@ -15,10 +15,15 @@ export function useCreateUser() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: CreateUser) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ payload }: CreateUser) => userApi.createUser(payload),
     onSuccess: handleOnSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const createUser = (variables: CreateUser) => {

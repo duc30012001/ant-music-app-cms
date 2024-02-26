@@ -1,6 +1,5 @@
 // import { ThemeProvider } from 'next-themes';
 
-import { PlaySongProvider } from '@/components/appPlaySong';
 import AppToast from '@/components/appToast';
 import { AntdProvider, LocaleProvider, ReactQueryProvider } from '@/core';
 import { AdminLayout } from '@/layouts';
@@ -33,18 +32,16 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       >
         <LocaleProvider>
           <AntdProvider>
-            <PlaySongProvider>
-              <AppLayout>
-                <NextNProgress
-                  options={{
-                    showSpinner: false,
-                  }}
-                  // color={process.env.PRIMARY_COLOR}
-                />
-                <Component {...pageProps} />
-                <AppToast />
-              </AppLayout>
-            </PlaySongProvider>
+            <AppLayout>
+              <NextNProgress
+                options={{
+                  showSpinner: false,
+                }}
+                // color={process.env.PRIMARY_COLOR}
+              />
+              <Component {...pageProps} />
+              <AppToast />
+            </AppLayout>
           </AntdProvider>
         </LocaleProvider>
       </main>

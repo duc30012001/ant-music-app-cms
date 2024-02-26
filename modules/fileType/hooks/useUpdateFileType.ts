@@ -24,11 +24,16 @@ export function useUpdateFileType() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateFileType) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ fileTypeId, payload }: UpdateFileType) =>
       fileTypeApi.updateFileType(fileTypeId, payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateFileType = (variables: UpdateFileType) => {

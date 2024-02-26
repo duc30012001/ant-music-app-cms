@@ -21,11 +21,16 @@ export function useUpdateTheme() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateTheme) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ themeId, payload }: UpdateTheme) =>
       themeApi.updateTheme(themeId, payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateTheme = (variables: UpdateTheme) => {

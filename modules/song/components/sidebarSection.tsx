@@ -25,6 +25,7 @@ function SidebarSection({ title, data, categoryValue, onChange }: Props) {
       valueArr = valueArr.filter((item) => Number(item) !== Number(id));
     }
     const value = valueArr.join(SPLIT_CHARACTER);
+    onChange(value);
   };
 
   return (

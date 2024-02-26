@@ -21,11 +21,16 @@ export function useUpdateGenre() {
     onSuccess?.();
   };
 
+  const handleOnError = (error: any, { onError }: UpdateGenre) => {
+    handleError(error);
+    onError?.();
+  };
+
   const mutation = useMutation({
     mutationFn: ({ genreId, payload }: UpdateGenre) =>
       genreApi.updateGenre(genreId, payload),
     onSuccess: handleSuccess,
-    onError: handleError,
+    onError: handleOnError,
   });
 
   const updateGenre = (variables: UpdateGenre) => {

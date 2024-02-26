@@ -2,16 +2,8 @@ import { GenreData } from '@/modules/genre/types';
 import { ThemeData } from '@/modules/theme/types';
 import { CommonAttribute, CommonFunction, CommonParams } from '@/types';
 
-interface FileType extends CommonAttribute {
+export interface FileType extends CommonAttribute {
   name: string;
-}
-
-interface SongKey {
-  id: number;
-  fileType: FileType;
-  url: string;
-  peakdata: null | string;
-  duration: string;
 }
 
 interface SongGenre {
@@ -22,16 +14,6 @@ interface SongGenre {
 interface SongTheme {
   id: number;
   theme: ThemeData;
-}
-
-export interface SongData extends CommonAttribute {
-  name: string;
-  thumbnail: string;
-  idString: string;
-  status: string;
-  songGenre: SongGenre[];
-  songTheme: SongTheme[];
-  songKey: SongKey[];
 }
 
 interface SongCategory {
@@ -89,6 +71,26 @@ export interface SongDetailExists {
   detail_url: SongDetailURL[];
 }
 
+export interface SongKey {
+  id: number;
+  fileType: FileType;
+  url: string;
+  peakdata: null | string;
+  duration: string;
+  detailUrlId: SongDetailURL['id'];
+}
+
+export interface SongData extends CommonAttribute {
+  name: string;
+  thumbnail: string;
+  idString: string;
+  status: string;
+  songGenre: SongGenre[];
+  songTheme: SongTheme[];
+  songKey: SongKey[];
+  songId: SongDetailExists['id'];
+}
+
 export interface SongDetailData {
   data: SongData;
 }
@@ -142,4 +144,8 @@ export interface DataSidebar {
     name: string;
     data: DataSidebarTheme[];
   };
+}
+
+export interface DataDownload {
+  url: string;
 }
