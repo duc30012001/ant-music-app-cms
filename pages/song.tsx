@@ -1,4 +1,5 @@
 import { AppContainer } from '@/components/appContainer';
+import { AppConfirm } from '@/components/ui/modal';
 import AppPagination from '@/components/ui/pagination';
 import { PAGE_SIZE } from '@/constants';
 import { getCurrentPage } from '@/helpers';
@@ -12,8 +13,8 @@ import {
   UpdateSong,
 } from '@/modules/song/components';
 import { TYPE_MODAL_SONG } from '@/modules/song/enums';
-import { useSongList } from '@/modules/song/hooks';
-import { DataFilterSong, SongData } from '@/modules/song/types';
+import { useDeleteSong, useSongList } from '@/modules/song/hooks';
+import { DataFilterSong, DeleteSong, SongData } from '@/modules/song/types';
 
 type Props = {};
 
@@ -37,6 +38,16 @@ function SongPage({}: Props) {
   const { dataSong, totalRecord } = useSongList(dataFilter);
 
   const currentPage = getCurrentPage(dataFilter.limit, PAGE_SIZE);
+
+  const { deleteSong } = useDeleteSong();
+
+  function onConfirmDelete() {
+    const variables: DeleteSong = {
+      songId: dataEdit?.id as SongData['id'],
+      onSuccess: closeModal,
+    };
+    deleteSong(variables);
+  }
   return (
     <AppContainer
       appTitle="Bài hát"
@@ -49,7 +60,11 @@ function SongPage({}: Props) {
         onSearch={onSearch}
         openModal={openModal}
       />
-      <SongList dataSong={dataSong} openModal={openModal} />
+      <SongList
+        dataSong={dataSong}
+        openModal={openModal}
+        onChangeFilter={onChangeFilter}
+      />
       <AppPagination
         pageSize={PAGE_SIZE}
         current={currentPage}
@@ -67,6 +82,17 @@ function SongPage({}: Props) {
 
       {typeModal === TYPE_MODAL_SONG.DOWNLOAD && (
         <DownloadModal open onCancel={closeModal} dataEdit={dataEdit} />
+      )}
+
+      {typeModal === TYPE_MODAL_SONG.DELETE && (
+        <AppConfirm
+          open
+          modalTitle={`${messages('delete.confirmTitle')} ${dataEdit?.name}`}
+          onCancel={closeModal}
+          onOk={onConfirmDelete}
+          paragraph={messages('delete.confirmMessage')}
+          loading={loading}
+        />
       )}
     </AppContainer>
   );
