@@ -7,6 +7,7 @@ import {
   DataFilterPlaylist,
   PlaylistDetail,
   PlaylistDetailData,
+  RemoveSongFromPlaylistPayload,
   UpdatePlaylistPayload,
   UpdateSongOfPlaylistPayload,
 } from '../types';
@@ -37,7 +38,7 @@ export const playlistApi = {
   },
 
   createPlaylist(payload: CreatePlaylistPayload) {
-    return axiosAuth.post(`/api/v1/manager/playlist/add`, payload);
+    return axiosAuth.post(`/api/v1/manager/playlist`, payload);
   },
 
   updatePlaylist(
@@ -52,6 +53,12 @@ export const playlistApi = {
       `/api/v1/manager/playlist/add-one-song-playlist`,
       payload
     );
+  },
+
+  removeSongFromPlaylist(payload: RemoveSongFromPlaylistPayload) {
+    return axiosAuth.delete(`/api/v1/manager/playlist/delete-song-play-list`, {
+      data: payload,
+    });
   },
 
   updateSongOfPlaylist(payload: UpdateSongOfPlaylistPayload) {

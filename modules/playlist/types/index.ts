@@ -64,6 +64,15 @@ export interface AddSongToPlaylist extends CommonFunction {
   payload: AddSongToPlaylistPayload;
 }
 
+export interface RemoveSongFromPlaylistPayload {
+  playlistId: PlaylistDetailData['id'];
+  songId: SongData['id'];
+}
+
+export interface RemoveSongFromPlaylist extends CommonFunction {
+  payload: RemoveSongFromPlaylistPayload;
+}
+
 export interface UpdateSongOfPlaylistPayload {
   playlistId: PlaylistDetailData['id'];
   songId: Array<SongData['id']>;

@@ -3,7 +3,7 @@ import { useTranslate } from '@/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { playlistApi } from '../api';
 import { playlistQueryKeys } from '../constants';
-import { AddSongToPlaylist } from '../types';
+import { AddSongToPlaylist, RemoveSongFromPlaylist } from '../types';
 
 export function useAddSongToPlaylist() {
   const queryClient = useQueryClient();
@@ -28,6 +28,38 @@ export function useAddSongToPlaylist() {
   });
 
   const addSongToPlaylist = (variables: AddSongToPlaylist) => {
+    mutation.mutate(variables);
+  };
+
+  return { ...mutation, addSongToPlaylist };
+}
+
+export function useRemoveSongFromPlaylist() {
+  const queryClient = useQueryClient();
+  const { messages } = useTranslate();
+
+  const handleOnSuccess = (
+    data: any,
+    { onSuccess }: RemoveSongFromPlaylist
+  ) => {
+    queryClient.invalidateQueries({ queryKey: playlistQueryKeys.getList });
+    showNotification('success', messages('message.createSuccessfully'));
+    onSuccess?.();
+  };
+
+  const handleOnError = (error: any, { onError }: RemoveSongFromPlaylist) => {
+    handleError(error);
+    onError?.();
+  };
+
+  const mutation = useMutation({
+    mutationFn: ({ payload }: RemoveSongFromPlaylist) =>
+      playlistApi.removeSongFromPlaylist(payload),
+    onSuccess: handleOnSuccess,
+    onError: handleOnError,
+  });
+
+  const addSongToPlaylist = (variables: RemoveSongFromPlaylist) => {
     mutation.mutate(variables);
   };
 
