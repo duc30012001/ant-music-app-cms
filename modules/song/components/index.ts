@@ -1,3 +1,4 @@
+export { default as AddSongToPlaylist } from './addSongToPlaylist';
 export { default as CreateSong } from './createSong';
 export { default as DownloadModal } from './downloadModal';
 export { default as SongHeader } from './songHeader';

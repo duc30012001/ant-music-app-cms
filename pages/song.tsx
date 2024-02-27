@@ -5,6 +5,7 @@ import { PAGE_SIZE } from '@/constants';
 import { getCurrentPage } from '@/helpers';
 import { useFilter, useLoading, useModal, useTranslate } from '@/hooks';
 import {
+  AddSongToPlaylist,
   CreateSong,
   DownloadModal,
   SongHeader,
@@ -82,6 +83,10 @@ function SongPage({}: Props) {
 
       {typeModal === TYPE_MODAL_SONG.DOWNLOAD && (
         <DownloadModal open onCancel={closeModal} dataEdit={dataEdit} />
+      )}
+
+      {typeModal === TYPE_MODAL_SONG.ADD_TO_PLAYLIST && (
+        <AddSongToPlaylist open onCancel={closeModal} dataEdit={dataEdit} />
       )}
 
       {typeModal === TYPE_MODAL_SONG.DELETE && (

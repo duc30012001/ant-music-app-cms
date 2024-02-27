@@ -8,6 +8,7 @@ import {
   LuDownload,
   LuExternalLink,
   LuPenSquare,
+  LuPlus,
   LuTrash,
 } from 'react-icons/lu';
 import { RiMusicFill } from 'react-icons/ri';
@@ -96,6 +97,11 @@ function SongItem({ data, openModal, onChangeFilter }: Props) {
         </div>
       </div>
       <div className="flex-none">
+        <ButtonIcon
+          title="Thêm vào danh sách phát"
+          icon={<LuPlus />}
+          onClick={() => openModal(TYPE_MODAL_SONG.ADD_TO_PLAYLIST, data)}
+        />
         <ButtonIcon
           title="Tải xuống"
           icon={<LuDownload />}
