@@ -30,6 +30,7 @@ export enum STATUS {
 
 export enum PLAYLIST_STATUS {
   OPEN = 'Open',
+  LOCK = 'Lock',
 }
 
 export enum USER_STATUS {

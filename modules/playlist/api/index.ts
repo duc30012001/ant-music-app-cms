@@ -1,10 +1,12 @@
 import { axiosAuth } from '@/apiClient';
-import { DataSidebar } from '@/modules/song/types';
+import { DataSidebar, SongData } from '@/modules/song/types';
 import { ListResponse, ResponseDetail } from '@/types';
 import {
   AddSongToPlaylistPayload,
   CreatePlaylistPayload,
   DataFilterPlaylist,
+  PlaylistBySong,
+  PlaylistData,
   PlaylistDetail,
   PlaylistDetailData,
   RemoveSongFromPlaylistPayload,
@@ -14,11 +16,17 @@ import {
 
 export const playlistApi = {
   getList(params: DataFilterPlaylist) {
-    return axiosAuth.get<ListResponse<PlaylistDetailData>>(
-      '/api/v1/manager/playlist/list',
+    return axiosAuth.get<ListResponse<PlaylistData>>(
+      '/api/v1/manager/playlist',
       {
         params,
       }
+    );
+  },
+
+  getListBySong(songId: SongData['id']) {
+    return axiosAuth.get<ResponseDetail<PlaylistBySong>>(
+      `/api/v1/manager/playlist/song-playlist/${songId}`
     );
   },
 
@@ -55,10 +63,16 @@ export const playlistApi = {
     );
   },
 
-  removeSongFromPlaylist(payload: RemoveSongFromPlaylistPayload) {
-    return axiosAuth.delete(`/api/v1/manager/playlist/delete-song-play-list`, {
-      data: payload,
-    });
+  removeSongFromPlaylist(
+    playlistId: PlaylistData['playList_id'],
+    payload: RemoveSongFromPlaylistPayload
+  ) {
+    return axiosAuth.delete(
+      `/api/v1/manager/playlist/delete-song-play-list/${playlistId}`,
+      {
+        data: payload,
+      }
+    );
   },
 
   updateSongOfPlaylist(payload: UpdateSongOfPlaylistPayload) {

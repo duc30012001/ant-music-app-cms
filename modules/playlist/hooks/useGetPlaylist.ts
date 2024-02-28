@@ -1,8 +1,12 @@
-import { DataSidebar } from '@/modules/song/types';
+import { DataSidebar, SongData } from '@/modules/song/types';
 import { useQuery } from '@tanstack/react-query';
 import { playlistApi } from '../api';
 import { playlistQueryKeys } from '../constants';
-import { DataFilterPlaylist, PlaylistDetailData } from '../types';
+import {
+  DataFilterPlaylist,
+  PlaylistBySongData,
+  PlaylistDetailData,
+} from '../types';
 
 export function usePlaylistList(params: DataFilterPlaylist) {
   const { data, ...restResponse } = useQuery({
@@ -31,7 +35,9 @@ export function usePlaylistSidebar(params: DataFilterPlaylist) {
   };
 }
 
-export function usePlaylistDetail(playlistId: PlaylistDetailData['id'] | null) {
+export function usePlaylistDetail(
+  playlistId: PlaylistDetailData['id'] | undefined
+) {
   const { data, ...restResponse } = useQuery({
     queryKey: [...playlistQueryKeys.getDetail, playlistId],
     queryFn: () =>
@@ -43,5 +49,20 @@ export function usePlaylistDetail(playlistId: PlaylistDetailData['id'] | null) {
   return {
     ...restResponse,
     dataPlaylistDetail: data?.data?.docs?.data ?? ({} as PlaylistDetailData),
+  };
+}
+
+export function usePlaylistBySong(songId: SongData['id'] | undefined) {
+  const { data, ...restResponse } = useQuery({
+    queryKey: [...playlistQueryKeys.getListBySong, songId],
+    queryFn: () => playlistApi.getListBySong(songId as SongData['id']),
+    placeholderData: (previousData) => previousData,
+    enabled: Boolean(songId),
+  });
+
+  return {
+    ...restResponse,
+    dataPlaylist:
+      data?.data?.docs?.dataPlaylist ?? ([] as PlaylistBySongData[]),
   };
 }

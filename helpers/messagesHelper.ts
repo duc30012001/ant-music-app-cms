@@ -5,9 +5,13 @@ export const showNotification = (
   message: string,
   toastOptions?: ToastOptions
 ) => {
-  const options = {
+  const options: ToastOptions = {
     ...toastOptions,
     type,
   };
-  toast(message, { ...options, toastId: message });
+
+  toast(message, {
+    ...options,
+    // toastId: message,
+  });
 };

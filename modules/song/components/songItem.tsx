@@ -71,28 +71,32 @@ function SongItem({ data, openModal, onChangeFilter }: Props) {
       />
       <SongTime value={duration} />
       <div className="w-52 flex-none">
-        <div>
+        <div className="truncate">
           {songGenre.map(({ id, genre }, index) => (
-            <span
-              key={id}
-              // onClick={() => onChangeFilter({ genreId: [id] })}
-              className="hover:cursor-pointer hover:underline"
-            >
-              {genre.name}
+            <>
+              <span
+                key={id}
+                // onClick={() => onChangeFilter({ genreId: [id] })}
+                className="hover:cursor-pointer hover:underline"
+              >
+                {genre.name}
+              </span>
               {index + 1 === songGenre.length ? '' : ', '}
-            </span>
+            </>
           ))}
         </div>
-        <div>
+        <div className="truncate">
           {songTheme.map(({ id, theme }, index) => (
-            <span
-              key={id}
-              // onClick={() => onChangeFilter({ themeId: [id] })}
-              className="hover:cursor-pointer hover:underline"
-            >
-              {theme.name}
+            <>
+              <span
+                key={id}
+                // onClick={() => onChangeFilter({ themeId: [id] })}
+                className="hover:cursor-pointer hover:underline"
+              >
+                {theme.name}
+              </span>
               {index + 1 === songGenre.length ? '' : ', '}
-            </span>
+            </>
           ))}
         </div>
       </div>

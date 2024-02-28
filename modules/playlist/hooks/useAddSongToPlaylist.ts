@@ -10,7 +10,9 @@ export function useAddSongToPlaylist() {
   const { messages } = useTranslate();
 
   const handleOnSuccess = (data: any, { onSuccess }: AddSongToPlaylist) => {
-    queryClient.invalidateQueries({ queryKey: playlistQueryKeys.getList });
+    queryClient.invalidateQueries({
+      queryKey: playlistQueryKeys.getListBySong,
+    });
     showNotification('success', messages('message.createSuccessfully'));
     onSuccess?.();
   };
@@ -42,8 +44,10 @@ export function useRemoveSongFromPlaylist() {
     data: any,
     { onSuccess }: RemoveSongFromPlaylist
   ) => {
-    queryClient.invalidateQueries({ queryKey: playlistQueryKeys.getList });
-    showNotification('success', messages('message.createSuccessfully'));
+    queryClient.invalidateQueries({
+      queryKey: playlistQueryKeys.getListBySong,
+    });
+    showNotification('success', messages('message.deleteSuccessfully'));
     onSuccess?.();
   };
 
@@ -53,15 +57,15 @@ export function useRemoveSongFromPlaylist() {
   };
 
   const mutation = useMutation({
-    mutationFn: ({ payload }: RemoveSongFromPlaylist) =>
-      playlistApi.removeSongFromPlaylist(payload),
+    mutationFn: ({ payload, playlistId }: RemoveSongFromPlaylist) =>
+      playlistApi.removeSongFromPlaylist(playlistId, payload),
     onSuccess: handleOnSuccess,
     onError: handleOnError,
   });
 
-  const addSongToPlaylist = (variables: RemoveSongFromPlaylist) => {
+  const removeSongFromPlaylist = (variables: RemoveSongFromPlaylist) => {
     mutation.mutate(variables);
   };
 
-  return { ...mutation, addSongToPlaylist };
+  return { ...mutation, removeSongFromPlaylist };
 }
