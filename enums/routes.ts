@@ -1,5 +1,6 @@
 export enum ADMIN_ROUTES {
   AUTH = '/',
+  PLAY_LIST = '/playlist',
   THEME = '/theme',
   GENRE = '/genre',
   USER = '/user',

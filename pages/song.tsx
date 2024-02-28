@@ -5,6 +5,7 @@ import { PAGE_SIZE } from '@/constants';
 import { getCurrentPage } from '@/helpers';
 import { useFilter, useLoading, useModal, useTranslate } from '@/hooks';
 import {
+  AddSongToPlaylist,
   CreateSong,
   DownloadModal,
   SongHeader,
@@ -13,7 +14,11 @@ import {
   UpdateSong,
 } from '@/modules/song/components';
 import { TYPE_MODAL_SONG } from '@/modules/song/enums';
-import { useDeleteSong, useSongList } from '@/modules/song/hooks';
+import {
+  useDeleteSong,
+  useSongList,
+  useSongSidebar,
+} from '@/modules/song/hooks';
 import { DataFilterSong, DeleteSong, SongData } from '@/modules/song/types';
 
 type Props = {};
@@ -36,6 +41,7 @@ function SongPage({}: Props) {
     useFilter<DataFilterSong>(defaultFilter);
 
   const { dataSong, totalRecord } = useSongList(dataFilter);
+  const { dataSidebar } = useSongSidebar(dataFilter);
 
   const currentPage = getCurrentPage(dataFilter.limit, PAGE_SIZE);
 
@@ -52,7 +58,11 @@ function SongPage({}: Props) {
     <AppContainer
       appTitle="Bài hát"
       sidebarContent={
-        <SongSidebar dataFilter={dataFilter} onChangeFilter={onChangeFilter} />
+        <SongSidebar
+          dataFilter={dataFilter}
+          onChangeFilter={onChangeFilter}
+          dataSidebar={dataSidebar}
+        />
       }
     >
       <SongHeader
@@ -82,6 +92,10 @@ function SongPage({}: Props) {
 
       {typeModal === TYPE_MODAL_SONG.DOWNLOAD && (
         <DownloadModal open onCancel={closeModal} dataEdit={dataEdit} />
+      )}
+
+      {typeModal === TYPE_MODAL_SONG.ADD_TO_PLAYLIST && (
+        <AddSongToPlaylist open onCancel={closeModal} dataEdit={dataEdit} />
       )}
 
       {typeModal === TYPE_MODAL_SONG.DELETE && (

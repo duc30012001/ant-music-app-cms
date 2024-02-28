@@ -28,6 +28,11 @@ export enum STATUS {
   BLOCKED = 2,
 }
 
+export enum PLAYLIST_STATUS {
+  OPEN = 'Open',
+  LOCK = 'Lock',
+}
+
 export enum USER_STATUS {
   OPEN = 'Active',
   LOCK = 'Inactive',

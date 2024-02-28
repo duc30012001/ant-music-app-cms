@@ -1,6 +1,6 @@
 import { ADMIN_ROUTES } from '@/enums';
 import { ReactNode } from 'react';
-import { TbFileMusic, TbIcons, TbMusic, TbMusicBolt, TbUsers } from 'react-icons/tb';
+import { TbFileMusic, TbIcons, TbMusic, TbMusicBolt, TbUsers ,TbListDetails} from 'react-icons/tb';
 
 export interface Route {
   id: number | string;
@@ -17,6 +17,13 @@ export const adminRoutes: Route[] = [
     href: ADMIN_ROUTES.SONG,
     icon: <TbMusic />,
     title: 'Song',
+  },
+  {
+    id: '3',
+    label: 'Danh sách phát',
+    href: ADMIN_ROUTES.PLAY_LIST,
+    icon: <TbListDetails />,
+    title: 'Playlist',
   },
   {
     id: '10',

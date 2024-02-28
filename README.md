@@ -41,13 +41,9 @@
     NODEMAILER_RECEIVER_CC=thangpt@ant-media.net
     NODEMAILER_PASS=vearuzelxiipudcg
 
-## COMMAND BUILD DEV
+## COMMAND BUILD
 
-     cd /www/wwwroot/ant-group-dev/ant-group && git pull origin dev && yarn && yarn build && pm2 restart ag-dev
-
-## COMMAND BUILD MAIN
-
-     cd /www/wwwroot/ag/ant-group && git pull origin main && yarn && yarn build && pm2 start --name=ag yarn -- start -p 4805 && pm2 save
+     cd /www/wwwroot/ant-music-app-cms && git pull origin main && yarn && yarn build && pm2 restart ant-music-app-cms
 
 ## CONNECT TO INSTANCE
 

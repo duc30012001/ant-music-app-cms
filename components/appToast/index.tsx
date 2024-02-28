@@ -10,6 +10,8 @@ export default function AppToast({}: Props) {
       pauseOnHover
       autoClose={3000}
       pauseOnFocusLoss={false}
+      newestOnTop
+      limit={10}
     />
   );
 }

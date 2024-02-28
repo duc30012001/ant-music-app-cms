@@ -1,17 +1,15 @@
 import { OnChangeFilter } from '@/hooks';
 import { Divider } from 'antd';
-import { useSongSidebar } from '../hooks';
-import { DataFilterSong } from '../types';
+import { DataFilterSong, DataSidebar } from '../types';
 import SidebarSection from './sidebarSection';
 
 type Props = {
   dataFilter: DataFilterSong;
   onChangeFilter: OnChangeFilter<DataFilterSong>;
+  dataSidebar: DataSidebar;
 };
 
-function SongSidebar({ dataFilter, onChangeFilter }: Props) {
-  const { dataSidebar } = useSongSidebar(dataFilter);
-
+function SongSidebar({ dataFilter, onChangeFilter, dataSidebar }: Props) {
   const dataSidebarGenre = (dataSidebar.genre?.data ?? []).map(
     ({ genre_id, genre_name, songCount }) => ({
       name: genre_name,

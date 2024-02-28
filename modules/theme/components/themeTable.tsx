@@ -33,7 +33,9 @@ function ThemeTable({ openModal, ...props }: Props) {
       width: 150,
       align: 'center',
       render: (cell, record) => (
-        <Avatar src={cell}>{getAvatarPlaceholder(record.name)}</Avatar>
+        <Avatar shape="square" src={cell} size={45}>
+          {getAvatarPlaceholder(record.name)}
+        </Avatar>
       ),
     },
     {
