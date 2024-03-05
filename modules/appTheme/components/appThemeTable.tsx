@@ -2,7 +2,7 @@ import { ActionButton } from '@/components/ui/button';
 import { SortableTable, SortableTableProps } from '@/components/ui/table';
 import { formattedDate, getIndex } from '@/helpers';
 import { OpenModalProps, useTranslate } from '@/hooks';
-import { Image } from 'antd';
+import { Image, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TYPE_MODAL_APP_THEME } from '../enums';
 import { AppThemeData } from '../types';
@@ -30,7 +30,7 @@ function AppThemeTable({ openModal, ...props }: Props) {
       title: 'Thumbnail',
       dataIndex: 'thumbnail',
       key: 'thumbnail',
-      width: 150,
+      width: 100,
       align: 'center',
       render: (cell, record) => <Image alt={record.name} src={cell} />,
     },
@@ -38,6 +38,58 @@ function AppThemeTable({ openModal, ...props }: Props) {
       title: 'Tên',
       dataIndex: 'name',
       key: 'name',
+      render: (cell, record) => {
+        return (
+          <div>
+            <Tooltip title="Tên Tiếng Việt" placement="right">
+              <span className="hover:text-primary">{record.name}</span>
+            </Tooltip>
+            <br />
+            <Tooltip title="Tên Tiếng Anh" placement="right">
+              <span className="hover:text-primary">{record.nameEn}</span>
+            </Tooltip>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Màu chủ đạo',
+      dataIndex: 'color1',
+      key: 'color1',
+      align: 'center',
+      width: 150,
+      render: (cell) => (
+        <div
+          className="mx-auto h-10 w-10 rounded-lg"
+          style={{ backgroundColor: cell }}
+        />
+      ),
+    },
+    {
+      title: 'Màu chữ',
+      dataIndex: 'color2',
+      key: 'color2',
+      align: 'center',
+      width: 150,
+      render: (cell) => (
+        <div
+          className="mx-auto h-10 w-10 rounded-lg"
+          style={{ backgroundColor: cell }}
+        />
+      ),
+    },
+    {
+      title: 'Màu viền',
+      dataIndex: 'color3',
+      key: 'color3',
+      align: 'center',
+      width: 150,
+      render: (cell) => (
+        <div
+          className="mx-auto h-10 w-10 rounded-lg"
+          style={{ backgroundColor: cell }}
+        />
+      ),
     },
     {
       title: messages('common.dateCreated'),

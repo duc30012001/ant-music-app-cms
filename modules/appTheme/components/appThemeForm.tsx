@@ -50,12 +50,14 @@ function AppThemeForm({ dataEdit, ...props }: Props) {
     const createVariables: CreateAppTheme = {
       payload,
       onSuccess,
+      onError: inActive,
     };
 
     const updateVariables: UpdateAppTheme = {
+      appThemeId,
       payload,
       onSuccess,
-      appThemeId,
+      onError: inActive,
     };
 
     if (isUpdate) {
@@ -66,6 +68,7 @@ function AppThemeForm({ dataEdit, ...props }: Props) {
   }
 
   function onSuccess() {
+    inActive();
     if (!isUpdate) {
       form.resetFields();
     }
@@ -92,7 +95,12 @@ function AppThemeForm({ dataEdit, ...props }: Props) {
       width={800}
       loading={isActive}
     >
-      <AppForm initialValues={{ ...dataEdit }} onFinish={onFinish} form={form}>
+      <AppForm
+        initialValues={{ ...dataEdit }}
+        onFinish={onFinish}
+        form={form}
+        loading={isActive}
+      >
         <AppFormItem
           label={'Tên chủ đề (Tiếng Việt)'}
           rules={[

@@ -25,23 +25,11 @@ export const appThemeApi = {
   },
 
   createAppTheme(payload: AppThemePayload) {
-    return axiosAuth.post(`/api/v1/manager/screenshot`, payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return axiosAuth.post(`/api/v1/manager/screenshot`, payload);
   },
 
   updateAppTheme(appThemeId: AppThemeData['id'], payload: AppThemePayload) {
-    return axiosAuth.patch(
-      `/api/v1/manager/screenshot/${appThemeId}`,
-      payload,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    return axiosAuth.patch(`/api/v1/manager/screenshot/${appThemeId}`, payload);
   },
 
   updateAppThemeLocation(payload: UpdateAppThemeLocationPayload) {
