@@ -148,6 +148,19 @@ function AppThemeForm({ dataEdit, ...props }: Props) {
               message: messages('validation.select'),
             },
           ]}
+          name="color"
+        >
+          <ColorPicker />
+        </AppFormItem>
+
+        <AppFormItem
+          label="Màu nền"
+          rules={[
+            {
+              required: true,
+              message: messages('validation.select'),
+            },
+          ]}
           name="color1"
         >
           <ColorPicker />

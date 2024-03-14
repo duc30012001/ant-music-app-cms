@@ -54,15 +54,32 @@ function AppThemeTable({ openModal, ...props }: Props) {
     },
     {
       title: 'Màu chủ đạo',
+      dataIndex: 'color',
+      key: 'color',
+      align: 'center',
+      width: 130,
+      render: (cell) => (
+        <Tooltip title={cell}>
+          <div
+            className="mx-auto h-10 w-10 rounded-lg"
+            style={{ backgroundColor: cell }}
+          />
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Màu nền',
       dataIndex: 'color1',
       key: 'color1',
       align: 'center',
-      width: 150,
+      width: 130,
       render: (cell) => (
-        <div
-          className="mx-auto h-10 w-10 rounded-lg"
-          style={{ backgroundColor: cell }}
-        />
+        <Tooltip title={cell}>
+          <div
+            className="mx-auto h-10 w-10 rounded-lg"
+            style={{ backgroundColor: cell }}
+          />
+        </Tooltip>
       ),
     },
     {
@@ -70,12 +87,14 @@ function AppThemeTable({ openModal, ...props }: Props) {
       dataIndex: 'color2',
       key: 'color2',
       align: 'center',
-      width: 150,
+      width: 130,
       render: (cell) => (
-        <div
-          className="mx-auto h-10 w-10 rounded-lg"
-          style={{ backgroundColor: cell }}
-        />
+        <Tooltip title={cell}>
+          <div
+            className="mx-auto h-10 w-10 rounded-lg"
+            style={{ backgroundColor: cell }}
+          />
+        </Tooltip>
       ),
     },
     {
@@ -83,12 +102,14 @@ function AppThemeTable({ openModal, ...props }: Props) {
       dataIndex: 'color3',
       key: 'color3',
       align: 'center',
-      width: 150,
+      width: 130,
       render: (cell) => (
-        <div
-          className="mx-auto h-10 w-10 rounded-lg"
-          style={{ backgroundColor: cell }}
-        />
+        <Tooltip title={cell}>
+          <div
+            className="mx-auto h-10 w-10 rounded-lg"
+            style={{ backgroundColor: cell }}
+          />
+        </Tooltip>
       ),
     },
     {
