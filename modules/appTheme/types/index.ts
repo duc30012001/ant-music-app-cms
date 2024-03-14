@@ -6,6 +6,7 @@ export interface AppThemeData extends CommonAttribute {
   nameEn: string;
   location: number;
   thumbnail: string;
+  color: string;
   color1: string;
   color2: string;
   color3: string;
@@ -20,7 +21,7 @@ export interface AppThemeDetailData {
 export interface AppThemePayload
   extends Pick<
     AppThemeData,
-    'name' | 'nameEn' | 'thumbnail' | 'color1' | 'color2' | 'color3'
+    'name' | 'nameEn' | 'thumbnail' | 'color' | 'color1' | 'color2' | 'color3'
   > {}
 
 export interface CreateAppTheme extends CommonFunction {
