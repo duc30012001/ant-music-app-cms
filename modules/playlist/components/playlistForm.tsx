@@ -140,7 +140,16 @@ function PlaylistForm({ dataEdit, ...props }: Props) {
               <Input />
             </AppFormItem>
 
-            <AppFormItem label={messages('common.thumbnail')} name="thumbnail">
+            <AppFormItem
+              label={messages('common.thumbnail')}
+              name="thumbnail"
+              rules={[
+                {
+                  required: true,
+                  message: messages('validation.file'),
+                },
+              ]}
+            >
               <ImageUpload />
             </AppFormItem>
           </Col>
