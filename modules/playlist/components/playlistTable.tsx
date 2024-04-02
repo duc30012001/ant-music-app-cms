@@ -55,7 +55,7 @@ function PlaylistTable({ openModal, ...props }: Props) {
       title: 'Thumbnail',
       dataIndex: 'playList_thumbnail',
       key: 'playList_thumbnail',
-      width: 100,
+      width: 80,
       align: 'center',
       render: (cell, record) => (
         <Avatar shape="square" src={cell} size={45}>
@@ -67,6 +67,7 @@ function PlaylistTable({ openModal, ...props }: Props) {
       title: 'Tên danh sách',
       dataIndex: 'playList_name',
       key: 'playList_name',
+      width: 250,
       render: (cell, record) => {
         return (
           <div>
@@ -96,12 +97,14 @@ function PlaylistTable({ openModal, ...props }: Props) {
       dataIndex: 'songGenres',
       key: 'songGenres',
       width: 200,
+      render: (cell) => cell?.split(',')?.join(', '),
     },
     {
       title: 'Chủ đề',
       dataIndex: 'songThemes',
       key: 'songThemes',
       width: 200,
+      render: (cell) => cell?.split(',')?.join(', '),
     },
     {
       title: messages('common.dateCreated'),
