@@ -80,7 +80,7 @@ const ImageUpload = ({
         title={previewTitle}
         footer={null}
         onCancel={handleCancel}
-        width={1200}
+        width={500}
         className="top-10"
       >
         <Image
