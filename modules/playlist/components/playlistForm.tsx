@@ -73,7 +73,7 @@ function PlaylistForm({ dataEdit, ...props }: Props) {
 
   useEffect(() => {
     if (dataPlaylistDetail.id) {
-      const { songPlaylist, name, nameEn, thumbnail } = dataPlaylistDetail;
+      const { songPlaylist, name, nameEn, thumbnail, id } = dataPlaylistDetail;
       const key = songPlaylist?.map((item) => item.songId.toString()) ?? [];
       setTargetKeys(key);
 
@@ -82,7 +82,7 @@ function PlaylistForm({ dataEdit, ...props }: Props) {
         nameEn: nameEn,
         thumbnail: thumbnail
           ? {
-              fileList: [{ url: thumbnail, name }],
+              fileList: [{ url: thumbnail, name, uuid: id }],
             }
           : undefined,
       };

@@ -12,8 +12,8 @@ function AppModal({ loading, children, ...props }: AppModalProps) {
       confirmLoading={loading}
       cancelButtonProps={{ disabled: loading }}
       closable={!loading}
-      // maskClosable={!loading}
-      maskClosable={false}
+      maskClosable={!loading}
+      // maskClosable={false}
       {...props}
     >
       {children}

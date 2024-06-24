@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   }
 
   const cookieToken = req.cookies.get(COOKIES_KEY.REFRESH_TOKEN)?.value;
-  const cookieLocale = req.cookies.get(COOKIES_KEY.LOCALE)?.value;
+  // const cookieLocale = req.cookies.get(COOKIES_KEY.LOCALE)?.value;
 
   if (cookieToken && req.nextUrl.pathname === ADMIN_ROUTES.AUTH) {
     const url = req.nextUrl.clone();
@@ -28,8 +28,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (cookieLocale && req.nextUrl.locale !== cookieLocale) {
-    const newURL = `/${cookieLocale}${req.nextUrl.pathname}${req.nextUrl.search}`;
-    return NextResponse.redirect(new URL(newURL, req.url));
-  }
+  // if (cookieLocale && req.nextUrl.locale !== cookieLocale) {
+  //   const newURL = `/${cookieLocale}${req.nextUrl.pathname}${req.nextUrl.search}`;
+  //   return NextResponse.redirect(new URL(newURL, req.url));
+  // }
 }

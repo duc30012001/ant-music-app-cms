@@ -68,7 +68,13 @@ function GenreForm({ dataEdit, ...props }: Props) {
       ...dataGenreDetail,
       thumbnail: dataGenreDetail.thumbnail
         ? {
-            fileList: [{ url: dataGenreDetail.thumbnail, name }],
+            fileList: [
+              {
+                url: dataGenreDetail.thumbnail,
+                name,
+                uuid: dataGenreDetail.id,
+              },
+            ],
           }
         : undefined,
     });

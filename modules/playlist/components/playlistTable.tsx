@@ -1,14 +1,9 @@
 import { ActionButton } from '@/components/ui/button';
 import { AppTable, AppTableProps } from '@/components/ui/table';
 import { PLAYLIST_STATUS } from '@/enums';
-import {
-  formattedDate,
-  formattedNumber,
-  getAvatarPlaceholder,
-  getIndex,
-} from '@/helpers';
+import { formattedDate, formattedNumber, getIndex } from '@/helpers';
 import { OpenModalProps, useTranslate } from '@/hooks';
-import { Avatar, Switch, Tooltip } from 'antd';
+import { Image, Switch, Tooltip } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { TYPE_MODAL_PLAYLIST } from '../enums';
 import { useUpdatePlaylist } from '../hooks';
@@ -58,9 +53,9 @@ function PlaylistTable({ openModal, ...props }: Props) {
       width: 80,
       align: 'center',
       render: (cell, record) => (
-        <Avatar shape="square" src={cell} size={45}>
-          {getAvatarPlaceholder(record.playList_name)}
-        </Avatar>
+        <div className="mx-auto aspect-square w-12 overflow-hidden rounded-lg">
+          <Image src={cell} alt={record.playList_name} />
+        </div>
       ),
     },
     {
