@@ -1,8 +1,8 @@
 import { ActionButton } from '@/components/ui/button';
 import { SortableTable, SortableTableProps } from '@/components/ui/table';
-import { formattedDate, getAvatarPlaceholder, getIndex } from '@/helpers';
+import { formattedDate, getIndex } from '@/helpers';
 import { OpenModalProps, useTranslate } from '@/hooks';
-import { Avatar } from 'antd';
+import { Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TYPE_MODAL_GENRE } from '../enums';
 import { GenreData } from '../types';
@@ -33,9 +33,9 @@ function GenreTable({ openModal, ...props }: Props) {
       width: 150,
       align: 'center',
       render: (cell, record) => (
-        <Avatar shape="square" src={cell} size={45}>
-          {getAvatarPlaceholder(record.name)}
-        </Avatar>
+        <div className="mx-auto aspect-square w-12 overflow-hidden rounded-lg">
+          <Image src={cell} alt={record.name} />
+        </div>
       ),
     },
     {

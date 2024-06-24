@@ -23,9 +23,11 @@ export const useLocale = () => {
   const router = useRouter();
   const { pathname, asPath, query } = router;
 
-  const routerLocale = router.locale as LOCALE | undefined;
+  // const routerLocale = router.locale as LOCALE | undefined;
 
-  const locale = routerLocale ?? DEFAULT_LOCALE;
+  // const locale = routerLocale ?? DEFAULT_LOCALE;
+
+  const locale = DEFAULT_LOCALE;
 
   const flattenedMessages = useMemo(
     () => flattenMessages(messages[locale as keyof typeof messages]),

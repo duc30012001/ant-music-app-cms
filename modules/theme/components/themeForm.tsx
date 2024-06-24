@@ -68,7 +68,13 @@ function ThemeForm({ dataEdit, ...props }: Props) {
       ...dataThemeDetail,
       thumbnail: dataThemeDetail.thumbnail
         ? {
-            fileList: [{ url: dataThemeDetail.thumbnail, name }],
+            fileList: [
+              {
+                url: dataThemeDetail.thumbnail,
+                name,
+                uuid: dataThemeDetail.id,
+              },
+            ],
           }
         : undefined,
     });

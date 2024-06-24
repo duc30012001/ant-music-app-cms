@@ -139,7 +139,13 @@ function UpdateSong({ dataEdit, ...props }: Props) {
       detailURL,
       thumbnail: dataSongDetail.thumbnail
         ? {
-            fileList: [{ url: dataSongDetail.thumbnail, title: name }],
+            fileList: [
+              {
+                url: dataSongDetail.thumbnail,
+                title: name,
+                uuid: dataSongDetail.id,
+              },
+            ],
           }
         : undefined,
     };
